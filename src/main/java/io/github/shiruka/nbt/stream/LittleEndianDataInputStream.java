@@ -43,12 +43,16 @@ public class LittleEndianDataInputStream implements DataInput, Closeable {
   }
 
   @Override
-  public final void readFully(final byte @NotNull [] b) throws IOException {
+  public final void readFully(final byte@NotNull[] b) throws IOException {
     this.stream.readFully(b);
   }
 
   @Override
-  public final void readFully(final byte @NotNull [] b, final int off, final int len) throws IOException {
+  public final void readFully(
+    final byte@NotNull[] b,
+    final int off,
+    final int len
+  ) throws IOException {
     this.stream.readFully(b, off, len);
   }
 

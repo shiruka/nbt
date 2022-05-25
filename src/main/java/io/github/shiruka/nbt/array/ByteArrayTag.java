@@ -20,7 +20,7 @@ public final class ByteArrayTag implements ArrayTag<Byte> {
   /**
    * the primitive original.
    */
-  private final byte @NotNull [] primitiveOriginal;
+  private final byte@NotNull[] primitiveOriginal;
 
   /**
    * ctor.
@@ -66,7 +66,7 @@ public final class ByteArrayTag implements ArrayTag<Byte> {
    *
    * @return primitive value.
    */
-  public byte @NotNull [] primitiveValue() {
+  public byte@NotNull[] primitiveValue() {
     return this.primitiveOriginal.clone();
   }
 
@@ -77,7 +77,7 @@ public final class ByteArrayTag implements ArrayTag<Byte> {
 
   @NotNull
   @Override
-  public Byte @NotNull [] value() {
+  public Byte@NotNull[] value() {
     return this.original.clone();
   }
 }

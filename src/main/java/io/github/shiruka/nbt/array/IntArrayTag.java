@@ -15,12 +15,12 @@ public final class IntArrayTag implements ArrayTag<Integer> {
    * the original.
    */
   @NotNull
-  private final Integer @NotNull [] original;
+  private final Integer@NotNull[] original;
 
   /**
    * the primitive original.
    */
-  private final int @NotNull [] primitiveOriginal;
+  private final int@NotNull[] primitiveOriginal;
 
   /**
    * ctor.
@@ -66,7 +66,7 @@ public final class IntArrayTag implements ArrayTag<Integer> {
    *
    * @return primitive value.
    */
-  public int @NotNull [] primitiveValue() {
+  public int@NotNull[] primitiveValue() {
     return this.primitiveOriginal.clone();
   }
 
@@ -77,7 +77,7 @@ public final class IntArrayTag implements ArrayTag<Integer> {
 
   @NotNull
   @Override
-  public Integer @NotNull [] value() {
+  public Integer@NotNull[] value() {
     return this.original.clone();
   }
 }

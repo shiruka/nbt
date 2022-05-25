@@ -6,7 +6,6 @@ import org.jetbrains.annotations.NotNull;
  * an interface to determine numbers.
  */
 public interface NumberTag extends PrimitiveTag<Double> {
-
   @NotNull
   @Override
   default NumberTag asNumber() {

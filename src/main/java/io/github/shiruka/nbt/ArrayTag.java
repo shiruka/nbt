@@ -9,7 +9,6 @@ import org.jetbrains.annotations.NotNull;
  * @param <T> type of arrays.
  */
 public interface ArrayTag<T> extends PrimitiveTag<T[]> {
-
   /**
    * checks indexes of the array tag.
    *
@@ -17,7 +16,11 @@ public interface ArrayTag<T> extends PrimitiveTag<T[]> {
    * @param length the length to check.
    */
   static void checkIndex(final int index, final int length) {
-    Preconditions.checkElementIndex(index, length, String.format("Index out of bounds: %s", index));
+    Preconditions.checkElementIndex(
+      index,
+      length,
+      String.format("Index out of bounds: %s", index)
+    );
   }
 
   @Override

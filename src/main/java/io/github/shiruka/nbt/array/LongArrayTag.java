@@ -20,7 +20,7 @@ public final class LongArrayTag implements ArrayTag<Long> {
   /**
    * the primitive original.
    */
-  private final long @NotNull [] primitiveOriginal;
+  private final long@NotNull[] primitiveOriginal;
 
   /**
    * ctor.
@@ -66,7 +66,7 @@ public final class LongArrayTag implements ArrayTag<Long> {
    *
    * @return primitive value.
    */
-  public long @NotNull [] primitiveValue() {
+  public long@NotNull[] primitiveValue() {
     return this.primitiveOriginal.clone();
   }
 
@@ -77,7 +77,7 @@ public final class LongArrayTag implements ArrayTag<Long> {
 
   @NotNull
   @Override
-  public Long @NotNull [] value() {
+  public Long@NotNull[] value() {
     return this.original.clone();
   }
 }

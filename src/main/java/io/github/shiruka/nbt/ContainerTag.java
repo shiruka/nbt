@@ -13,7 +13,6 @@ import org.jetbrains.annotations.NotNull;
  * @param <S> type of the implementation.
  */
 public interface ContainerTag<K, S extends ContainerTag<K, S>> extends Tag {
-
   /**
    * checks if the container tag has the given tag.
    *
@@ -81,9 +80,7 @@ public interface ContainerTag<K, S extends ContainerTag<K, S>> extends Tag {
    */
   @NotNull
   default Optional<CompoundTag> getCompoundTag(@NotNull final K key) {
-    return this.get(key)
-      .filter(Tag::isCompound)
-      .map(Tag::asCompound);
+    return this.get(key).filter(Tag::isCompound).map(Tag::asCompound);
   }
 
   /**
@@ -155,8 +152,7 @@ public interface ContainerTag<K, S extends ContainerTag<K, S>> extends Tag {
    */
   @NotNull
   default Optional<List<Tag>> getList(@NotNull final K key) {
-    return this.getListTag(key)
-      .map(ListTag::all);
+    return this.getListTag(key).map(ListTag::all);
   }
 
   /**
@@ -168,9 +164,11 @@ public interface ContainerTag<K, S extends ContainerTag<K, S>> extends Tag {
    * @return a list instance from the tag container.
    */
   @NotNull
-  default Optional<List<Tag>> getList(@NotNull final K key, @NotNull final TagTypes listType) {
-    return this.getListTag(key, listType)
-      .map(ListTag::all);
+  default Optional<List<Tag>> getList(
+    @NotNull final K key,
+    @NotNull final TagTypes listType
+  ) {
+    return this.getListTag(key, listType).map(ListTag::all);
   }
 
   /**
@@ -182,9 +180,7 @@ public interface ContainerTag<K, S extends ContainerTag<K, S>> extends Tag {
    */
   @NotNull
   default Optional<ListTag> getListTag(@NotNull final K key) {
-    return this.get(key)
-      .filter(Tag::isList)
-      .map(Tag::asList);
+    return this.get(key).filter(Tag::isList).map(Tag::asList);
   }
 
   /**
@@ -196,7 +192,10 @@ public interface ContainerTag<K, S extends ContainerTag<K, S>> extends Tag {
    * @return a list tag instance from the tag container.
    */
   @NotNull
-  default Optional<ListTag> getListTag(@NotNull final K key, @NotNull final TagTypes listType) {
+  default Optional<ListTag> getListTag(
+    @NotNull final K key,
+    @NotNull final TagTypes listType
+  ) {
     return this.get(key)
       .filter(Tag::isList)
       .map(Tag::asList)
@@ -242,8 +241,7 @@ public interface ContainerTag<K, S extends ContainerTag<K, S>> extends Tag {
    */
   @NotNull
   default Optional<Map<String, Tag>> getMap(@NotNull final K key) {
-    return this.getCompoundTag(key)
-      .map(CompoundTag::all);
+    return this.getCompoundTag(key).map(CompoundTag::all);
   }
 
   /**
@@ -432,7 +430,7 @@ public interface ContainerTag<K, S extends ContainerTag<K, S>> extends Tag {
    * @return {@code this} for the chain.
    */
   @NotNull
-  default S setLongArray(@NotNull final K key, final long @NotNull [] value) {
+  default S setLongArray(@NotNull final K key, final long@NotNull[] value) {
     return this.set(key, Tag.createLongArray(value));
   }
 
@@ -445,7 +443,10 @@ public interface ContainerTag<K, S extends ContainerTag<K, S>> extends Tag {
    * @return {@code this} for the chain.
    */
   @NotNull
-  default S setMap(@NotNull final K key, @NotNull final Map<String, Tag> value) {
+  default S setMap(
+    @NotNull final K key,
+    @NotNull final Map<String, Tag> value
+  ) {
     return this.set(key, Tag.createCompound(value));
   }
 

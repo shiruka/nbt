@@ -49,7 +49,8 @@ public class VarInts {
    *
    * @throws IOException if something went wrong when reading the input.
    */
-  public int readUnsignedInt(@NotNull final DataInput input) throws IOException {
+  public int readUnsignedInt(@NotNull final DataInput input)
+    throws IOException {
     return (int) VarInts.decodeUnsigned(input);
   }
 
@@ -61,7 +62,8 @@ public class VarInts {
    *
    * @throws IOException if something went wrong when writing to the output..
    */
-  public void writeInt(@NotNull final DataOutput output, final int integer) throws IOException {
+  public void writeInt(@NotNull final DataOutput output, final int integer)
+    throws IOException {
     VarInts.encodeUnsigned(output, (long) integer << 1 ^ integer >> 31);
   }
 
@@ -73,7 +75,10 @@ public class VarInts {
    *
    * @throws IOException if something went wrong when writing to the output.
    */
-  public void writeLong(@NotNull final DataOutput output, final long longInteger) throws IOException {
+  public void writeLong(
+    @NotNull final DataOutput output,
+    final long longInteger
+  ) throws IOException {
     VarInts.encodeUnsigned(output, longInteger << 1 ^ longInteger >> 63);
   }
 
@@ -85,7 +90,10 @@ public class VarInts {
    *
    * @throws IOException if something went wrong when writing to the output.
    */
-  public void writeUnsignedInt(@NotNull final DataOutput output, final long integer) throws IOException {
+  public void writeUnsignedInt(
+    @NotNull final DataOutput output,
+    final long integer
+  ) throws IOException {
     VarInts.encodeUnsigned(output, integer);
   }
 
@@ -98,7 +106,8 @@ public class VarInts {
    *
    * @throws IOException if something went wrong when decoding the given input.
    */
-  private long decodeUnsigned(@NotNull final DataInput input) throws IOException {
+  private long decodeUnsigned(@NotNull final DataInput input)
+    throws IOException {
     var result = 0;
     for (var shift = 0; shift < 64; shift += 7) {
       final var b = input.readByte();
@@ -118,7 +127,10 @@ public class VarInts {
    *
    * @throws IOException if something went wrong when encoding to the output.
    */
-  private void encodeUnsigned(@NotNull final DataOutput output, final long value) throws IOException {
+  private void encodeUnsigned(
+    @NotNull final DataOutput output,
+    final long value
+  ) throws IOException {
     var tempValue = value;
     while (true) {
       if ((tempValue & ~0x7FL) == 0) {

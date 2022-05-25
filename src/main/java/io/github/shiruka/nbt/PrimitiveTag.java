@@ -8,7 +8,6 @@ import org.jetbrains.annotations.NotNull;
  * @param <T> type of the tag's value.
  */
 public interface PrimitiveTag<T> extends Tag {
-
   @NotNull
   @Override
   default PrimitiveTag<T> asPrimitive() {

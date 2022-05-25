@@ -38,7 +38,10 @@ public final class ListTagBasic implements ListTag {
    * @param original the original.
    * @param listType the list type.
    */
-  public ListTagBasic(@NotNull final List<Tag> original, @NotNull final TagTypes listType) {
+  public ListTagBasic(
+    @NotNull final List<Tag> original,
+    @NotNull final TagTypes listType
+  ) {
     this.original = Collections.unmodifiableList(original);
     this.listType = listType;
   }
@@ -46,16 +49,27 @@ public final class ListTagBasic implements ListTag {
   @NotNull
   @Override
   public ListTag add(@NotNull final Tag tag) {
-    this.edit(tags -> {
-      final var endType = TagTypes.END;
-      Preconditions.checkArgument(tag.getType() != endType,
-        "Cannot add a %s to a %s", endType, TagTypes.LIST);
-      if (this.getListType() != endType) {
-        Preconditions.checkArgument(tag.getType() == this.listType,
-          "Trying to add tag of type %s to list of %s", tag.getType(), this.listType);
-      }
-      tags.add(tag);
-    }, tag.getType());
+    this.edit(
+        tags -> {
+          final var endType = TagTypes.END;
+          Preconditions.checkArgument(
+            tag.getType() != endType,
+            "Cannot add a %s to a %s",
+            endType,
+            TagTypes.LIST
+          );
+          if (this.getListType() != endType) {
+            Preconditions.checkArgument(
+              tag.getType() == this.listType,
+              "Trying to add tag of type %s to list of %s",
+              tag.getType(),
+              this.listType
+            );
+          }
+          tags.add(tag);
+        },
+        tag.getType()
+      );
     return this;
   }
 
@@ -109,8 +123,11 @@ public final class ListTagBasic implements ListTag {
 
   @Override
   public boolean equals(final Object obj) {
-    return this == obj ||
-      obj instanceof ListTagBasic list && this.original.equals(list.original);
+    return (
+      this == obj ||
+      obj instanceof ListTagBasic list &&
+      this.original.equals(list.original)
+    );
   }
 
   @Override
@@ -148,7 +165,10 @@ public final class ListTagBasic implements ListTag {
   @NotNull
   @Override
   public Spliterator<Tag> spliterator() {
-    return Spliterators.spliterator(this.original, Spliterator.ORDERED | Spliterator.IMMUTABLE);
+    return Spliterators.spliterator(
+      this.original,
+      Spliterator.ORDERED | Spliterator.IMMUTABLE
+    );
   }
 
   /**
@@ -157,7 +177,10 @@ public final class ListTagBasic implements ListTag {
    * @param consumer the consumer to edit.
    * @param type the type to edit.
    */
-  private void edit(@NotNull final Consumer<List<Tag>> consumer, @NotNull final TagTypes type) {
+  private void edit(
+    @NotNull final Consumer<List<Tag>> consumer,
+    @NotNull final TagTypes type
+  ) {
     final var tags = new ObjectArrayList<>(this.original);
     consumer.accept(tags);
     if (type != TagTypes.NONE && this.listType == TagTypes.END) {

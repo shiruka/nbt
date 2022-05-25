@@ -13,10 +13,8 @@ import org.jetbrains.annotations.NotNull;
  *
  * @param original the original.
  */
-public record CompoundTagBasic(
-  @NotNull Map<String, Tag> original
-) implements CompoundTag {
-
+public record CompoundTagBasic(@NotNull Map<String, Tag> original)
+  implements CompoundTag {
   /**
    * ctor.
    */

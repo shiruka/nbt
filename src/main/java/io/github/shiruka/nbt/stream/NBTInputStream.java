@@ -72,7 +72,10 @@ public final class NBTInputStream implements Closeable {
    */
   @NotNull
   public Tag read(final byte id) throws IOException {
-    Preconditions.checkState(!this.closed, "Trying to read from a closed reader!");
+    Preconditions.checkState(
+      !this.closed,
+      "Trying to read from a closed reader!"
+    );
     switch (id) {
       case 1:
         return this.readByte();

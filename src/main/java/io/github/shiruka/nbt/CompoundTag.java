@@ -7,7 +7,6 @@ import org.jetbrains.annotations.NotNull;
  * an interface to determine compound tags which contain map of {@link Tag}.
  */
 public interface CompoundTag extends Tag, ContainerTag<String, CompoundTag> {
-
   /**
    * checks if the given {@code type} is a number.
    *
@@ -16,12 +15,14 @@ public interface CompoundTag extends Tag, ContainerTag<String, CompoundTag> {
    * @return {@code true} if the type is a number.
    */
   private static boolean isNumber(@NotNull final TagTypes type) {
-    return type == TagTypes.BYTE ||
+    return (
+      type == TagTypes.BYTE ||
       type == TagTypes.SHORT ||
       type == TagTypes.INT ||
       type == TagTypes.LONG ||
       type == TagTypes.FLOAT ||
-      type == TagTypes.DOUBLE;
+      type == TagTypes.DOUBLE
+    );
   }
 
   /**
@@ -57,7 +58,10 @@ public interface CompoundTag extends Tag, ContainerTag<String, CompoundTag> {
    *
    * @return {@code true} if the id of the key's value equals the given {@code id}.
    */
-  default boolean hasKeyOfType(@NotNull final String key, @NotNull final TagTypes id) {
+  default boolean hasKeyOfType(
+    @NotNull final String key,
+    @NotNull final TagTypes id
+  ) {
     final var type = this.get(key).map(Tag::getType).orElse(TagTypes.END);
     return id == type || id.getId() == 99 && CompoundTag.isNumber(type);
   }

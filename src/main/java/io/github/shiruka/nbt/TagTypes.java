@@ -92,7 +92,10 @@ public enum TagTypes {
    * @param emptyTagSupplier the empty tag supplier.
    * @param id the id.
    */
-  TagTypes(@NotNull final Supplier<@Nullable Tag> emptyTagSupplier, final int id) {
+  TagTypes(
+    @NotNull final Supplier<@Nullable Tag> emptyTagSupplier,
+    final int id
+  ) {
     this(emptyTagSupplier, (byte) id);
   }
 
@@ -103,6 +106,10 @@ public enum TagTypes {
    */
   @NotNull
   public Tag emptyTag() {
-    return Preconditions.checkNotNull(this.emptyTagSupplier.get(), "%s", this.id);
+    return Preconditions.checkNotNull(
+      this.emptyTagSupplier.get(),
+      "%s",
+      this.id
+    );
   }
 }

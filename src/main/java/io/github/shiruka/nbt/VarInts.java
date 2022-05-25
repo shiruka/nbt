@@ -3,14 +3,12 @@ package io.github.shiruka.nbt;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
-import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * an interface that contains utility methods for {@link DataInput} and {@link DataOutput} classes.
  */
 public interface VarInts {
-
   /**
    * reads the integer from the given input.
    *

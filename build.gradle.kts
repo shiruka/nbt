@@ -97,6 +97,10 @@ tasks {
     from(sourceSets["main"].allSource)
   }
 
+  checkstyleMain {
+    dependsOn(spotlessApply)
+  }
+
   build {
     dependsOn(spotlessApply)
     dependsOn(jar)

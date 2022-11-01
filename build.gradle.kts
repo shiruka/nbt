@@ -34,6 +34,10 @@ dependencies {
 
   testImplementation(libs.lombok)
   testImplementation(libs.annotations)
+  testImplementation(libs.junit)
+  testImplementation(libs.fastutil)
+  testImplementation(libs.guava)
+  testImplementation(libs.commonslang)
 
   testAnnotationProcessor(libs.lombok)
   testAnnotationProcessor(libs.annotations)
@@ -46,10 +50,6 @@ java {
 }
 
 tasks {
-  jar {
-    archiveClassifier.set("")
-  }
-
   compileJava {
     options.encoding = Charsets.UTF_8.name()
   }

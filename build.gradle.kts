@@ -5,40 +5,42 @@ plugins {
   `maven-publish`
   signing
   id("checkstyle")
-  id("com.diffplug.spotless") version "6.11.0"
-  id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
+  alias(libs.plugins.spotless)
+  alias(libs.plugins.nexus)
 }
 
 group = "io.github.shiruka"
-
-val signRequired = !rootProject.property("dev").toString().toBoolean()
 
 checkstyle {
   configFile = file("checkstyle.xml")
 }
 
-spotless {
-  lineEndings = LineEnding.UNIX
+repositories {
+  mavenCentral()
+  maven("https://oss.sonatype.org/content/repositories/snapshots/")
+  mavenLocal()
+}
 
-  java {
-    importOrder()
-    removeUnusedImports()
-    endWithNewline()
-    indentWithSpaces(2)
-    trimTrailingWhitespace()
-    prettier(
-      mapOf(
-        "prettier" to "2.3.1",
-        "prettier-plugin-java" to "1.6.1"
-      )
-    ).config(
-      mapOf(
-        "parser" to "java",
-        "tabWidth" to 2,
-        "useTabs" to false
-      )
-    )
-  }
+dependencies {
+  compileOnly(libs.lombok)
+  compileOnly(libs.annotations)
+  compileOnly(libs.fastutil)
+  compileOnly(libs.guava)
+  compileOnly(libs.commonslang)
+  compileOnly(libs.netty)
+
+  annotationProcessor(libs.lombok)
+  annotationProcessor(libs.annotations)
+
+  testImplementation(libs.lombok)
+  testImplementation(libs.annotations)
+  testImplementation(libs.junit)
+  testImplementation(libs.fastutil)
+  testImplementation(libs.guava)
+  testImplementation(libs.commonslang)
+
+  testAnnotationProcessor(libs.lombok)
+  testAnnotationProcessor(libs.annotations)
 }
 
 java {
@@ -47,35 +49,7 @@ java {
   }
 }
 
-repositories {
-  mavenCentral()
-  maven(SNAPSHOTS)
-  mavenLocal()
-}
-
-dependencies {
-  compileOnly(lombokLibrary)
-  compileOnly(annotationsLibrary)
-  compileOnly(fastutilLibrary)
-  compileOnly(guavaLibrary)
-  compileOnly(commonsLang3Library)
-  compileOnly(nettyBufferLibrary)
-
-  annotationProcessor(lombokLibrary)
-  annotationProcessor(annotationsLibrary)
-
-  testImplementation(lombokLibrary)
-  testImplementation(annotationsLibrary)
-
-  testAnnotationProcessor(lombokLibrary)
-  testAnnotationProcessor(annotationsLibrary)
-}
-
 tasks {
-  jar {
-    define()
-  }
-
   compileJava {
     options.encoding = Charsets.UTF_8.name()
   }
@@ -87,13 +61,13 @@ tasks {
 
   val javadocJar by creating(Jar::class) {
     dependsOn("javadoc")
-    define(classifier = "javadoc")
+    archiveClassifier.set("javadoc")
     from(javadoc)
   }
 
   val sourcesJar by creating(Jar::class) {
     dependsOn("classes")
-    define(classifier = "sources")
+    archiveClassifier.set("sources")
     from(sourceSets["main"].allSource)
   }
 
@@ -114,6 +88,42 @@ tasks {
 
   checkstyleTest {
     isEnabled = false
+  }
+}
+
+val spotlessApply = rootProject.property("spotless.apply").toString().toBoolean()
+val signRequired = !rootProject.property("dev").toString().toBoolean()
+
+if (spotlessApply) {
+  spotless {
+    lineEndings = LineEnding.UNIX
+    isEnforceCheck = false
+
+    format("encoding") {
+      target("*.*")
+      encoding("UTF-8")
+    }
+
+    java {
+      target("**/src/**/java/**/*.java")
+      importOrder()
+      removeUnusedImports()
+      endWithNewline()
+      indentWithSpaces(2)
+      trimTrailingWhitespace()
+      prettier(
+        mapOf(
+          "prettier" to "2.7.1",
+          "prettier-plugin-java" to "1.6.2"
+        )
+      ).config(
+        mapOf(
+          "parser" to "java",
+          "tabWidth" to 2,
+          "useTabs" to false
+        )
+      )
+    }
   }
 }
 

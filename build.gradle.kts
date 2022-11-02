@@ -2,6 +2,7 @@ import com.diffplug.spotless.LineEnding
 
 plugins {
   java
+  `java-library`
   `maven-publish`
   signing
   id("checkstyle")
@@ -10,6 +11,8 @@ plugins {
 }
 
 group = "io.github.shiruka"
+
+configurations.testImplementation.get().extendsFrom(configurations.compileOnlyApi.get())
 
 checkstyle {
   configFile = file("checkstyle.xml")
@@ -22,22 +25,21 @@ repositories {
 }
 
 dependencies {
+  compileOnlyApi(libs.fastutil)
+  compileOnlyApi(libs.guava)
+  compileOnlyApi(libs.commonslang)
+  compileOnlyApi(libs.netty)
+
+  testImplementation(libs.junit)
+
   compileOnly(libs.lombok)
   compileOnly(libs.annotations)
-  compileOnly(libs.fastutil)
-  compileOnly(libs.guava)
-  compileOnly(libs.commonslang)
-  compileOnly(libs.netty)
 
   annotationProcessor(libs.lombok)
   annotationProcessor(libs.annotations)
 
   testImplementation(libs.lombok)
   testImplementation(libs.annotations)
-  testImplementation(libs.junit)
-  testImplementation(libs.fastutil)
-  testImplementation(libs.guava)
-  testImplementation(libs.commonslang)
 
   testAnnotationProcessor(libs.lombok)
   testAnnotationProcessor(libs.annotations)

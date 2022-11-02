@@ -57,7 +57,7 @@ public interface VarInts {
    * @param output the output to write.
    * @param integer the integer to write.
    *
-   * @throws IOException if something went wrong when writing to the output..
+   * @throws IOException if something went wrong when writing to the output.
    */
   static void writeInt(@NotNull final DataOutput output, final int integer)
     throws IOException {

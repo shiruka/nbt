@@ -11,10 +11,10 @@ public final class DoubleTag extends NumberTagEnvelope {
   /**
    * ctor.
    *
-   * @param original the original.
+   * @param number the number.
    */
-  public DoubleTag(final double original) {
-    super(original);
+  public DoubleTag(final double number) {
+    super(number);
   }
 
   @NotNull

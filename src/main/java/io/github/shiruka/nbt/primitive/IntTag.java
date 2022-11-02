@@ -11,10 +11,10 @@ public final class IntTag extends NumberTagEnvelope {
   /**
    * ctor.
    *
-   * @param original the original.
+   * @param number the number.
    */
-  public IntTag(final int original) {
-    super(original);
+  public IntTag(final int number) {
+    super(number);
   }
 
   @NotNull

@@ -11,10 +11,10 @@ public final class FloatTag extends NumberTagEnvelope {
   /**
    * ctor.
    *
-   * @param original the original.
+   * @param number the number.
    */
-  public FloatTag(final float original) {
-    super(original);
+  public FloatTag(final float number) {
+    super(number);
   }
 
   @NotNull

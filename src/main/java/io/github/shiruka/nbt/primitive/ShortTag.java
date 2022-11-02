@@ -11,10 +11,10 @@ public final class ShortTag extends NumberTagEnvelope {
   /**
    * ctor.
    *
-   * @param original the original.
+   * @param number the number.
    */
-  public ShortTag(final short original) {
-    super(original);
+  public ShortTag(final short number) {
+    super(number);
   }
 
   @NotNull

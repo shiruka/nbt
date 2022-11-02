@@ -11,10 +11,10 @@ public final class LongTag extends NumberTagEnvelope {
   /**
    * ctor.
    *
-   * @param original the original.
+   * @param number the number.
    */
-  public LongTag(final long original) {
-    super(original);
+  public LongTag(final long number) {
+    super(number);
   }
 
   @NotNull

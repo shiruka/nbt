@@ -11,10 +11,10 @@ public final class ByteTag extends NumberTagEnvelope {
   /**
    * ctor.
    *
-   * @param original the original.
+   * @param number the number.
    */
-  public ByteTag(final byte original) {
-    super(original);
+  public ByteTag(final byte number) {
+    super(number);
   }
 
   @NotNull

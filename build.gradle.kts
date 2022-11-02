@@ -29,11 +29,10 @@ dependencies {
   compileOnlyApi(libs.guava)
   compileOnlyApi(libs.commonslang)
   compileOnlyApi(libs.netty)
+  compileOnlyApi(libs.lombok)
+  compileOnlyApi(libs.annotations)
 
   testImplementation(libs.junit)
-
-  compileOnly(libs.lombok)
-  compileOnly(libs.annotations)
 
   annotationProcessor(libs.lombok)
   annotationProcessor(libs.annotations)

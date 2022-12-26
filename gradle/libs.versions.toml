@@ -1,7 +1,7 @@
 [libraries]
 lombok = { module = "org.projectlombok:lombok", version = "1.18.24" }
 annotations = { module = "org.jetbrains:annotations", version = "23.1.0" }
-fastutil = { module = "it.unimi.dsi:fastutil", version = "8.5.9" }
+fastutil = { module = "it.unimi.dsi:fastutil", version = "8.5.11" }
 guava = { module = "com.google.guava:guava", version = "31.1-jre" }
 netty = { module = "io.netty:netty-all", version = "4.1.86.Final" }
 commonslang = { module = "org.apache.commons:commons-lang3", version = "3.12.0" }

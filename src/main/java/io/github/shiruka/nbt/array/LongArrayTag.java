@@ -67,7 +67,7 @@ public final class LongArrayTag implements ArrayTag<Long> {
    * @return primitive value.
    */
   public long@NotNull[] primitiveValue() {
-    return this.primitiveOriginal.clone();
+    return this.primitiveOriginal;
   }
 
   @Override

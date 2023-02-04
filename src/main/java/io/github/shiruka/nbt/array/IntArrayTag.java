@@ -67,7 +67,7 @@ public final class IntArrayTag implements ArrayTag<Integer> {
    * @return primitive value.
    */
   public int@NotNull[] primitiveValue() {
-    return this.primitiveOriginal.clone();
+    return this.primitiveOriginal;
   }
 
   @Override

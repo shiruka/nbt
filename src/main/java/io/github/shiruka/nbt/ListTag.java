@@ -7,7 +7,8 @@ import org.jetbrains.annotations.NotNull;
 /**
  * an interface to determine list tags which contain list of {@link Tag}.
  */
-public interface ListTag extends Tag, IntContainerTag<ListTag>, Iterable<Tag> {
+public interface ListTag
+  extends Tag, ContainerTag<Integer, ListTag>, Iterable<Tag> {
   /**
    * adds the given tag.
    *

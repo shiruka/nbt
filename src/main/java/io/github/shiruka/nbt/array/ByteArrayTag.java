@@ -67,7 +67,7 @@ public final class ByteArrayTag implements ArrayTag<Byte> {
    * @return primitive value.
    */
   public byte@NotNull[] primitiveValue() {
-    return this.primitiveOriginal.clone();
+    return this.primitiveOriginal;
   }
 
   @Override

@@ -18,6 +18,7 @@ import io.github.shiruka.nbt.primitive.StringTag;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import java.io.Closeable;
 import java.io.DataInput;
+import java.io.EOFException;
 import java.io.IOException;
 import lombok.Getter;
 import lombok.experimental.Accessors;
@@ -56,8 +57,8 @@ public final class NBTInputStream implements Closeable {
       return;
     }
     this.closed = true;
-    if (this.input instanceof Closeable) {
-      ((Closeable) this.input).close();
+    if (this.input instanceof Closeable closeable) {
+      closeable.close();
     }
   }
 
@@ -76,35 +77,21 @@ public final class NBTInputStream implements Closeable {
       !this.closed,
       "Trying to read from a closed reader!"
     );
-    switch (id) {
-      case 1:
-        return this.readByte();
-      case 2:
-        return this.readShort();
-      case 3:
-        return this.readInt();
-      case 4:
-        return this.readLong();
-      case 5:
-        return this.readFloat();
-      case 6:
-        return this.readDouble();
-      case 7:
-        return this.readByteArray();
-      case 8:
-        return this.readString();
-      case 9:
-        return this.readListTag();
-      case 10:
-        return this.readCompoundTag();
-      case 11:
-        return this.readIntArray();
-      case 12:
-        return this.readLongArray();
-      case 0:
-      default:
-        throw new IllegalArgumentException("Unknown type " + id);
-    }
+    return switch (id) {
+      case 1 -> this.readByte();
+      case 2 -> this.readShort();
+      case 3 -> this.readInt();
+      case 4 -> this.readLong();
+      case 5 -> this.readFloat();
+      case 6 -> this.readDouble();
+      case 7 -> this.readByteArray();
+      case 8 -> this.readString();
+      case 9 -> this.readListTag();
+      case 10 -> this.readCompoundTag();
+      case 11 -> this.readIntArray();
+      case 12 -> this.readLongArray();
+      default -> throw new IllegalArgumentException("Unknown type " + id);
+    };
   }
 
   /**
@@ -144,8 +131,16 @@ public final class NBTInputStream implements Closeable {
   @NotNull
   public CompoundTag readCompoundTag() throws IOException {
     final var compoundTag = Tag.createCompound();
-    byte id;
-    while ((id = this.input.readByte()) != TagTypes.END.getId()) {
+    while (true) {
+      final byte id;
+      try {
+        id = this.input.readByte();
+      } catch (final EOFException e) {
+        break;
+      }
+      if (id == TagTypes.END.getId()) {
+        break;
+      }
       final var key = this.input.readUTF();
       final var tag = this.read(id);
       compoundTag.set(key, tag);

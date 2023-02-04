@@ -92,26 +92,31 @@ public final class ListTagBasic implements ListTag {
   }
 
   @Override
-  public boolean contains(@NotNull final Tag tag) {
-    return this.original.contains(tag);
+  public boolean contains(@NotNull final Tag o) {
+    return this.original.contains(o);
+  }
+
+  @Override
+  public boolean containsKey(@NotNull final Integer key) {
+    throw new UnsupportedOperationException();
   }
 
   @NotNull
   @Override
-  public Optional<Tag> get(final int key) {
+  public Optional<Tag> get(@NotNull final Integer key) {
     return Optional.ofNullable(this.original.get(key));
   }
 
   @NotNull
   @Override
-  public ListTag remove(final int key) {
+  public ListTag remove(@NotNull final Integer key) {
     this.edit(tags -> tags.remove(key), TagTypes.NONE);
     return this;
   }
 
   @NotNull
   @Override
-  public ListTag set(final int key, @NotNull final Tag tag) {
+  public ListTag set(@NotNull final Integer key, @NotNull final Tag tag) {
     this.edit(tags -> tags.set(key, tag), tag.getType());
     return this;
   }

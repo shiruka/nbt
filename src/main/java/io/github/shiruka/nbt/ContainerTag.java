@@ -1,9 +1,17 @@
 package io.github.shiruka.nbt;
 
 import io.github.shiruka.nbt.array.ByteArrayTag;
+import io.github.shiruka.nbt.array.IntArrayTag;
+import io.github.shiruka.nbt.array.LongArrayTag;
+import io.github.shiruka.nbt.misc.OptionalByte;
+import io.github.shiruka.nbt.misc.OptionalFloat;
+import io.github.shiruka.nbt.misc.OptionalShort;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -49,11 +57,12 @@ public interface ContainerTag<K, S extends ContainerTag<K, S>> extends Tag {
    * @return a byte instance from the tag container.
    */
   @NotNull
-  default Optional<Byte> getByte(@NotNull final K key) {
+  default OptionalByte getByte(@NotNull final K key) {
     return this.get(key)
       .filter(Tag::isByte)
       .map(Tag::asByte)
-      .map(NumberTag::byteValue);
+      .map(tag -> OptionalByte.of(tag.byteValue()))
+      .orElseGet(OptionalByte::empty);
   }
 
   /**
@@ -64,11 +73,11 @@ public interface ContainerTag<K, S extends ContainerTag<K, S>> extends Tag {
    * @return a byte array instance from the tag container.
    */
   @NotNull
-  default Optional<Byte[]> getByteArray(@NotNull final K key) {
+  default Optional<byte[]> getByteArray(@NotNull final K key) {
     return this.get(key)
       .filter(Tag::isByteArray)
       .map(Tag::asByteArray)
-      .map(ArrayTag::value);
+      .map(ByteArrayTag::primitiveValue);
   }
 
   /**
@@ -91,11 +100,12 @@ public interface ContainerTag<K, S extends ContainerTag<K, S>> extends Tag {
    * @return a double instance from the tag container.
    */
   @NotNull
-  default Optional<Double> getDouble(@NotNull final K key) {
+  default OptionalDouble getDouble(@NotNull final K key) {
     return this.get(key)
       .filter(Tag::isDouble)
       .map(Tag::asDouble)
-      .map(NumberTag::doubleValue);
+      .map(doubleTag -> OptionalDouble.of(doubleTag.doubleValue()))
+      .orElseGet(OptionalDouble::empty);
   }
 
   /**
@@ -106,11 +116,12 @@ public interface ContainerTag<K, S extends ContainerTag<K, S>> extends Tag {
    * @return a float instance from the tag container.
    */
   @NotNull
-  default Optional<Float> getFloat(@NotNull final K key) {
+  default OptionalFloat getFloat(@NotNull final K key) {
     return this.get(key)
       .filter(Tag::isFloat)
       .map(Tag::asFloat)
-      .map(NumberTag::floatValue);
+      .map(doubleTag -> OptionalFloat.of(doubleTag.floatValue()))
+      .orElseGet(OptionalFloat::empty);
   }
 
   /**
@@ -121,11 +132,11 @@ public interface ContainerTag<K, S extends ContainerTag<K, S>> extends Tag {
    * @return a int array instance from the tag container.
    */
   @NotNull
-  default Optional<Integer[]> getIntArray(@NotNull final K key) {
+  default Optional<int[]> getIntArray(@NotNull final K key) {
     return this.get(key)
       .filter(Tag::isIntArray)
       .map(Tag::asIntArray)
-      .map(ArrayTag::value);
+      .map(IntArrayTag::primitiveValue);
   }
 
   /**
@@ -136,11 +147,12 @@ public interface ContainerTag<K, S extends ContainerTag<K, S>> extends Tag {
    * @return a integer instance from the tag container.
    */
   @NotNull
-  default Optional<Integer> getInteger(@NotNull final K key) {
+  default OptionalInt getInteger(@NotNull final K key) {
     return this.get(key)
       .filter(Tag::isInt)
       .map(Tag::asInt)
-      .map(NumberTag::intValue);
+      .map(intTag -> OptionalInt.of(intTag.intValue()))
+      .orElseGet(OptionalInt::empty);
   }
 
   /**
@@ -210,11 +222,12 @@ public interface ContainerTag<K, S extends ContainerTag<K, S>> extends Tag {
    * @return a long instance from the tag container.
    */
   @NotNull
-  default Optional<Long> getLong(@NotNull final K key) {
+  default OptionalLong getLong(@NotNull final K key) {
     return this.get(key)
       .filter(Tag::isLong)
       .map(Tag::asLong)
-      .map(NumberTag::longValue);
+      .map(longTag -> OptionalLong.of(longTag.longValue()))
+      .orElseGet(OptionalLong::empty);
   }
 
   /**
@@ -225,11 +238,11 @@ public interface ContainerTag<K, S extends ContainerTag<K, S>> extends Tag {
    * @return a long array instance from the tag container.
    */
   @NotNull
-  default Optional<Long[]> getLongArray(@NotNull final K key) {
+  default Optional<long[]> getLongArray(@NotNull final K key) {
     return this.get(key)
       .filter(Tag::isLongArray)
       .map(Tag::asLongArray)
-      .map(ArrayTag::value);
+      .map(LongArrayTag::primitiveValue);
   }
 
   /**
@@ -245,21 +258,6 @@ public interface ContainerTag<K, S extends ContainerTag<K, S>> extends Tag {
   }
 
   /**
-   * gets the primitive byte array from the tag container.
-   *
-   * @param key the key to get.
-   *
-   * @return a primitive byte array instance from the tag container.
-   */
-  @NotNull
-  default Optional<byte[]> getPrimitiveByteArray(@NotNull final K key) {
-    return this.get(key)
-      .filter(Tag::isByteArray)
-      .map(Tag::asByteArray)
-      .map(ByteArrayTag::primitiveValue);
-  }
-
-  /**
    * gets the short from the tag container.
    *
    * @param key the key to get.
@@ -267,11 +265,12 @@ public interface ContainerTag<K, S extends ContainerTag<K, S>> extends Tag {
    * @return a short instance from the tag container.
    */
   @NotNull
-  default Optional<Short> getShort(@NotNull final K key) {
+  default OptionalShort getShort(@NotNull final K key) {
     return this.get(key)
       .filter(Tag::isShort)
       .map(Tag::asShort)
-      .map(NumberTag::shortValue);
+      .map(shortTag -> OptionalShort.of(shortTag.shortValue()))
+      .orElseGet(OptionalShort::empty);
   }
 
   /**

@@ -61,6 +61,33 @@ public final class IntArrayTag implements ArrayTag<Integer> {
     return this.original.length;
   }
 
+  @Override
+  public int hashCode() {
+    return Arrays.hashCode(this.primitiveOriginal);
+  }
+
+  @Override
+  public boolean equals(final Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || this.getClass() != o.getClass()) {
+      return false;
+    }
+    final var that = (IntArrayTag) o;
+    return Arrays.equals(this.primitiveOriginal, that.primitiveOriginal);
+  }
+
+  @Override
+  public String toString() {
+    return (
+      "IntArrayTag{" +
+      "primitiveOriginal=" +
+      Arrays.toString(this.primitiveOriginal) +
+      '}'
+    );
+  }
+
   /**
    * obtains the primitive original value.
    *
@@ -68,11 +95,6 @@ public final class IntArrayTag implements ArrayTag<Integer> {
    */
   public int@NotNull[] primitiveValue() {
     return this.primitiveOriginal;
-  }
-
-  @Override
-  public String toString() {
-    return Arrays.toString(this.original);
   }
 
   @NotNull

@@ -1,6 +1,6 @@
 [libraries]
 lombok = { module = "org.projectlombok:lombok", version = "1.18.26" }
-annotations = { module = "org.jetbrains:annotations", version = "24.0.0" }
+annotations = { module = "org.jetbrains:annotations", version = "24.0.1" }
 fastutil = { module = "it.unimi.dsi:fastutil", version = "8.5.12" }
 guava = { module = "com.google.guava:guava", version = "31.1-jre" }
 netty = { module = "io.netty:netty-all", version = "4.1.89.Final" }

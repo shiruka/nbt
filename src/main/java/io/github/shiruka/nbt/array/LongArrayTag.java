@@ -80,12 +80,7 @@ public final class LongArrayTag implements ArrayTag<Long> {
 
   @Override
   public String toString() {
-    return (
-      "LongArrayTag{" +
-      "primitiveOriginal=" +
-      Arrays.toString(this.primitiveOriginal) +
-      '}'
-    );
+    return ("LongArrayTag{" + "primitiveOriginal=" + Arrays.toString(this.primitiveOriginal) + '}');
   }
 
   /**

@@ -58,10 +58,7 @@ public interface CompoundTag extends Tag, ContainerTag<String, CompoundTag> {
    *
    * @return {@code true} if the id of the key's value equals the given {@code id}.
    */
-  default boolean hasKeyOfType(
-    @NotNull final String key,
-    @NotNull final TagTypes id
-  ) {
+  default boolean hasKeyOfType(@NotNull final String key, @NotNull final TagTypes id) {
     final var type = this.get(key).map(Tag::getType).orElse(TagTypes.END);
     return id == type || id.getId() == 99 && CompoundTag.isNumber(type);
   }

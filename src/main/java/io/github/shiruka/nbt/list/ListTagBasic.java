@@ -37,10 +37,7 @@ public final class ListTagBasic implements ListTag {
    * @param original the original.
    * @param listType the list type.
    */
-  public ListTagBasic(
-    @NotNull final List<Tag> original,
-    @NotNull final TagTypes listType
-  ) {
+  public ListTagBasic(@NotNull final List<Tag> original, @NotNull final TagTypes listType) {
     this.original = Collections.unmodifiableList(original);
     this.listType = listType;
   }
@@ -59,10 +56,7 @@ public final class ListTagBasic implements ListTag {
           if (this.getListType() != endType) {
             if (tag.getType() != this.listType) {
               throw new IllegalArgumentException(
-                "Trying to add tag of type %s to list of %s".formatted(
-                    tag.getType(),
-                    this.listType
-                  )
+                "Trying to add tag of type %s to list of %s".formatted(tag.getType(), this.listType)
               );
             }
           }
@@ -129,9 +123,7 @@ public final class ListTagBasic implements ListTag {
   @Override
   public boolean equals(final Object obj) {
     return (
-      this == obj ||
-      obj instanceof final ListTagBasic list &&
-      this.original.equals(list.original)
+      this == obj || obj instanceof final ListTagBasic list && this.original.equals(list.original)
     );
   }
 
@@ -170,10 +162,7 @@ public final class ListTagBasic implements ListTag {
   @NotNull
   @Override
   public Spliterator<Tag> spliterator() {
-    return Spliterators.spliterator(
-      this.original,
-      Spliterator.ORDERED | Spliterator.IMMUTABLE
-    );
+    return Spliterators.spliterator(this.original, Spliterator.ORDERED | Spliterator.IMMUTABLE);
   }
 
   /**
@@ -182,10 +171,7 @@ public final class ListTagBasic implements ListTag {
    * @param consumer the consumer to edit.
    * @param type the type to edit.
    */
-  private void edit(
-    @NotNull final Consumer<List<Tag>> consumer,
-    @NotNull final TagTypes type
-  ) {
+  private void edit(@NotNull final Consumer<List<Tag>> consumer, @NotNull final TagTypes type) {
     final var tags = new ArrayList<>(this.original);
     consumer.accept(tags);
     if (type != TagTypes.NONE && this.listType == TagTypes.END) {

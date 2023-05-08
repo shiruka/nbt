@@ -18,9 +18,7 @@ public interface ArrayTag<T> extends PrimitiveTag<T[]> {
     if (index < 0 || index >= length) {
       final var desc = String.format("Index out of bounds: %s", index);
       if (index < 0) {
-        throw new IndexOutOfBoundsException(
-          "%s (%s) must not be negative".formatted(desc, index)
-        );
+        throw new IndexOutOfBoundsException("%s (%s) must not be negative".formatted(desc, index));
       }
       if (length < 0) {
         throw new IllegalArgumentException("negative size: " + length);

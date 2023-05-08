@@ -170,8 +170,7 @@ public interface Tag {
    * @throws IOException if an I/O error has occurred.
    */
   @NotNull
-  static NBTInputStream createGZIPReader(@NotNull final InputStream stream)
-    throws IOException {
+  static NBTInputStream createGZIPReader(@NotNull final InputStream stream) throws IOException {
     return Tag.createReader(new GZIPInputStream(stream));
   }
 
@@ -185,8 +184,7 @@ public interface Tag {
    * @throws IOException if an I/O error has occurred.
    */
   @NotNull
-  static NBTOutputStream createGZIPWriter(@NotNull final OutputStream stream)
-    throws IOException {
+  static NBTOutputStream createGZIPWriter(@NotNull final OutputStream stream) throws IOException {
     return Tag.createWriter(new GZIPOutputStream(stream));
   }
 
@@ -305,9 +303,7 @@ public interface Tag {
    * @return a new instance of {@link NBTOutputStream} with {@link NetworkDataOutputStream}.
    */
   @NotNull
-  static NBTOutputStream createNetworkWriter(
-    @NotNull final OutputStream stream
-  ) {
+  static NBTOutputStream createNetworkWriter(@NotNull final OutputStream stream) {
     return new NBTOutputStream(new NetworkDataOutputStream(stream));
   }
 
@@ -485,9 +481,7 @@ public interface Tag {
    */
   @NotNull
   default ByteTag asByte() {
-    throw new IllegalStateException(
-      String.format("%s cannot cast as a ByteTag!", this.getClass())
-    );
+    throw new IllegalStateException(String.format("%s cannot cast as a ByteTag!", this.getClass()));
   }
 
   /**
@@ -555,9 +549,7 @@ public interface Tag {
    */
   @NotNull
   default IntTag asInt() {
-    throw new IllegalStateException(
-      String.format("%s cannot cast as a IntTag!", this.getClass())
-    );
+    throw new IllegalStateException(String.format("%s cannot cast as a IntTag!", this.getClass()));
   }
 
   /**
@@ -583,9 +575,7 @@ public interface Tag {
    */
   @NotNull
   default ListTag asList() {
-    throw new IllegalStateException(
-      String.format("%s cannot cast as a ListTag!", this.getClass())
-    );
+    throw new IllegalStateException(String.format("%s cannot cast as a ListTag!", this.getClass()));
   }
 
   /**
@@ -597,9 +587,7 @@ public interface Tag {
    */
   @NotNull
   default LongTag asLong() {
-    throw new IllegalStateException(
-      String.format("%s cannot cast as a LongTag!", this.getClass())
-    );
+    throw new IllegalStateException(String.format("%s cannot cast as a LongTag!", this.getClass()));
   }
 
   /**

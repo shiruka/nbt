@@ -1,3 +1,4 @@
+import com.diffplug.gradle.spotless.YamlExtension
 import com.diffplug.spotless.LineEnding
 
 plugins {
@@ -11,6 +12,8 @@ plugins {
 }
 
 group = "io.github.shiruka"
+
+defaultTasks("build")
 
 configurations {
   testImplementation.get().extendsFrom(compileOnlyApi.get())
@@ -66,12 +69,15 @@ tasks {
     from(sourceSets["main"].allSource)
   }
 
+  compileJava {
+    dependsOn(spotlessApply)
+  }
+
   checkstyleMain {
     dependsOn(spotlessApply)
   }
 
   build {
-    dependsOn(spotlessApply)
     dependsOn(jar)
     dependsOn(sourcesJar)
     dependsOn(javadocJar)
@@ -86,38 +92,56 @@ tasks {
   }
 }
 
-val spotlessApply = rootProject.property("spotless.apply").toString().toBoolean()
 val signRequired = !rootProject.property("dev").toString().toBoolean()
 
-if (spotlessApply) {
-  spotless {
-    lineEndings = LineEnding.UNIX
+spotless {
+  lineEndings = LineEnding.UNIX
 
-    format("encoding") {
-      target("*.*")
-      encoding("UTF-8")
-    }
+  val prettierConfig =
+    mapOf(
+      "prettier" to "latest",
+      "prettier-plugin-java" to "latest",
+    )
 
-    java {
-      target("**/src/**/java/**/*.java")
-      importOrder()
-      removeUnusedImports()
-      endWithNewline()
-      indentWithSpaces(2)
-      trimTrailingWhitespace()
-      prettier(
-        mapOf(
-          "prettier" to "2.7.1",
-          "prettier-plugin-java" to "1.6.2"
-        )
-      ).config(
-        mapOf(
-          "parser" to "java",
-          "tabWidth" to 2,
-          "useTabs" to false
-        )
+  format("encoding") {
+    target("*.*")
+    encoding("UTF-8")
+    endWithNewline()
+    trimTrailingWhitespace()
+  }
+
+  yaml {
+    target(
+      ".github/**/*.yml",
+      ".github/**/*.yaml",
+    )
+    endWithNewline()
+    trimTrailingWhitespace()
+    val jackson = jackson() as YamlExtension.JacksonYamlGradleConfig
+    jackson.yamlFeature("LITERAL_BLOCK_STYLE", true)
+    jackson.yamlFeature("MINIMIZE_QUOTES", true)
+    jackson.yamlFeature("SPLIT_LINES", false)
+  }
+
+  kotlinGradle {
+    target("**/*.gradle.kts")
+    indentWithSpaces(2)
+    endWithNewline()
+    trimTrailingWhitespace()
+    ktlint()
+  }
+
+  java {
+    target("**/src/**/java/**/*.java")
+    importOrder()
+    removeUnusedImports()
+    indentWithSpaces(2)
+    endWithNewline()
+    trimTrailingWhitespace()
+    prettier(prettierConfig)
+      .config(
+        mapOf("parser" to "java", "tabWidth" to 2, "useTabs" to false, "printWidth" to 100),
       )
-    }
   }
 }
 

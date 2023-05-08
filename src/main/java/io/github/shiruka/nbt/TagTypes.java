@@ -92,10 +92,7 @@ public enum TagTypes {
    * @param emptyTagSupplier the empty tag supplier.
    * @param id the id.
    */
-  TagTypes(
-    @NotNull final Supplier<@Nullable Tag> emptyTagSupplier,
-    final int id
-  ) {
+  TagTypes(@NotNull final Supplier<@Nullable Tag> emptyTagSupplier, final int id) {
     this(emptyTagSupplier, (byte) id);
   }
 
@@ -106,9 +103,6 @@ public enum TagTypes {
    */
   @NotNull
   public Tag emptyTag() {
-    return Objects.requireNonNull(
-      this.emptyTagSupplier.get(),
-      String.valueOf(this.id)
-    );
+    return Objects.requireNonNull(this.emptyTagSupplier.get(), String.valueOf(this.id));
   }
 }

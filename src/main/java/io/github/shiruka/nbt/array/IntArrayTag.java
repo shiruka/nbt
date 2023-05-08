@@ -80,12 +80,7 @@ public final class IntArrayTag implements ArrayTag<Integer> {
 
   @Override
   public String toString() {
-    return (
-      "IntArrayTag{" +
-      "primitiveOriginal=" +
-      Arrays.toString(this.primitiveOriginal) +
-      '}'
-    );
+    return ("IntArrayTag{" + "primitiveOriginal=" + Arrays.toString(this.primitiveOriginal) + '}');
   }
 
   /**

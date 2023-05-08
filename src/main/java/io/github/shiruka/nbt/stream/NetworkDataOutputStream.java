@@ -10,8 +10,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * an implementation for {@link LittleEndianDataOutputStream}.
  */
-public final class NetworkDataOutputStream
-  extends LittleEndianDataOutputStream {
+public final class NetworkDataOutputStream extends LittleEndianDataOutputStream {
 
   /**
    * ctor.

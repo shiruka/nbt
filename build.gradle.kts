@@ -68,14 +68,6 @@ tasks {
     from(sourceSets["main"].allSource)
   }
 
-  compileJava {
-    dependsOn(spotlessApply)
-  }
-
-  checkstyleMain {
-    dependsOn(spotlessApply)
-  }
-
   build {
     dependsOn(jar)
     dependsOn(sourcesJar)

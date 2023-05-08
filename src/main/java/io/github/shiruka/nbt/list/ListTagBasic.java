@@ -1,10 +1,9 @@
 package io.github.shiruka.nbt.list;
 
-import com.google.common.base.Preconditions;
 import io.github.shiruka.nbt.ListTag;
 import io.github.shiruka.nbt.Tag;
 import io.github.shiruka.nbt.TagTypes;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -52,19 +51,20 @@ public final class ListTagBasic implements ListTag {
     this.edit(
         tags -> {
           final var endType = TagTypes.END;
-          Preconditions.checkArgument(
-            tag.getType() != endType,
-            "Cannot add a %s to a %s",
-            endType,
-            TagTypes.LIST
-          );
-          if (this.getListType() != endType) {
-            Preconditions.checkArgument(
-              tag.getType() == this.listType,
-              "Trying to add tag of type %s to list of %s",
-              tag.getType(),
-              this.listType
+          if (tag.getType() == endType) {
+            throw new IllegalArgumentException(
+              "Cannot add a %s to a %s".formatted(endType, TagTypes.LIST)
             );
+          }
+          if (this.getListType() != endType) {
+            if (tag.getType() != this.listType) {
+              throw new IllegalArgumentException(
+                "Trying to add tag of type %s to list of %s".formatted(
+                    tag.getType(),
+                    this.listType
+                  )
+              );
+            }
           }
           tags.add(tag);
         },
@@ -130,7 +130,7 @@ public final class ListTagBasic implements ListTag {
   public boolean equals(final Object obj) {
     return (
       this == obj ||
-      obj instanceof ListTagBasic list &&
+      obj instanceof final ListTagBasic list &&
       this.original.equals(list.original)
     );
   }
@@ -186,7 +186,7 @@ public final class ListTagBasic implements ListTag {
     @NotNull final Consumer<List<Tag>> consumer,
     @NotNull final TagTypes type
   ) {
-    final var tags = new ObjectArrayList<>(this.original);
+    final var tags = new ArrayList<>(this.original);
     consumer.accept(tags);
     if (type != TagTypes.NONE && this.listType == TagTypes.END) {
       this.original = tags;

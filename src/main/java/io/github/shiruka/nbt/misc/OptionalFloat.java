@@ -88,7 +88,7 @@ public final class OptionalFloat {
       return true;
     }
     return (
-      obj instanceof OptionalFloat other &&
+      obj instanceof final OptionalFloat other &&
       (
         this.isPresent && other.isPresent
           ? this.value == other.value

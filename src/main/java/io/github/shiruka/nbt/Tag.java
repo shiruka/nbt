@@ -23,7 +23,6 @@ import io.github.shiruka.nbt.stream.NetworkDataInputStream;
 import io.github.shiruka.nbt.stream.NetworkDataOutputStream;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufOutputStream;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -234,7 +233,7 @@ public interface Tag {
    */
   @NotNull
   static ListTag createList(@NotNull final Tag... original) {
-    return Tag.createList(new ObjectArrayList<>(original));
+    return Tag.createList(List.of(original));
   }
 
   /**

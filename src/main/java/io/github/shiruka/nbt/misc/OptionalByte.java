@@ -88,7 +88,7 @@ public final class OptionalByte {
       return true;
     }
     return (
-      obj instanceof OptionalByte other &&
+      obj instanceof final OptionalByte other &&
       (
         this.isPresent && other.isPresent
           ? this.value == other.value

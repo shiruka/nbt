@@ -1,7 +1,7 @@
 package io.github.shiruka.nbt;
 
-import com.google.common.base.Preconditions;
 import io.github.shiruka.nbt.primitive.EndTag;
+import java.util.Objects;
 import java.util.function.Supplier;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -106,10 +106,9 @@ public enum TagTypes {
    */
   @NotNull
   public Tag emptyTag() {
-    return Preconditions.checkNotNull(
+    return Objects.requireNonNull(
       this.emptyTagSupplier.get(),
-      "%s",
-      this.id
+      String.valueOf(this.id)
     );
   }
 }

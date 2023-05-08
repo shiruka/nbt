@@ -28,9 +28,6 @@ repositories {
 }
 
 dependencies {
-  compileOnlyApi(libs.fastutil)
-  compileOnlyApi(libs.guava)
-  compileOnlyApi(libs.commonslang)
   compileOnlyApi(libs.netty)
   compileOnlyApi(libs.lombok)
   compileOnlyApi(libs.annotations)

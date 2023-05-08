@@ -88,7 +88,7 @@ public final class OptionalShort {
       return true;
     }
     return (
-      obj instanceof OptionalShort other &&
+      obj instanceof final OptionalShort other &&
       (
         this.isPresent && other.isPresent
           ? this.value == other.value

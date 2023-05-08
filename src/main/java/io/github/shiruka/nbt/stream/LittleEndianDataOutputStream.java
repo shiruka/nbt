@@ -53,8 +53,7 @@ public class LittleEndianDataOutputStream implements DataOutput, Closeable {
   }
 
   @Override
-  public final void write(final byte@NotNull[] b, final int off, final int len)
-    throws IOException {
+  public final void write(final byte@NotNull[] b, final int off, final int len) throws IOException {
     this.stream.write(b, off, len);
   }
 

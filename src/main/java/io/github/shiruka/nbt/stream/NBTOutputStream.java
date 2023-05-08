@@ -1,6 +1,5 @@
 package io.github.shiruka.nbt.stream;
 
-import com.google.common.base.Preconditions;
 import io.github.shiruka.nbt.CompoundTag;
 import io.github.shiruka.nbt.ListTag;
 import io.github.shiruka.nbt.Tag;
@@ -68,10 +67,9 @@ public final class NBTOutputStream implements Closeable {
    * @throws IOException if something went wrong when reading the given input.
    */
   public void write(@NotNull final Tag value) throws IOException {
-    Preconditions.checkState(
-      !this.closed,
-      "Trying to read from a closed reader!"
-    );
+    if (this.closed) {
+      throw new IllegalStateException("Trying to read from a closed reader!");
+    }
     final var id = value.getType();
     if (value.isByte()) {
       this.writeByte(value.asByte());
@@ -120,8 +118,7 @@ public final class NBTOutputStream implements Closeable {
    *
    * @throws IOException if something went wrong when reading the given input.
    */
-  public void writeByteArray(@NotNull final ByteArrayTag value)
-    throws IOException {
+  public void writeByteArray(@NotNull final ByteArrayTag value) throws IOException {
     final var bytes = value.primitiveValue();
     this.output.writeInt(bytes.length);
     this.output.write(bytes);
@@ -134,8 +131,7 @@ public final class NBTOutputStream implements Closeable {
    *
    * @throws IOException if something went wrong when reading the given input.
    */
-  public void writeCompoundTag(@NotNull final CompoundTag value)
-    throws IOException {
+  public void writeCompoundTag(@NotNull final CompoundTag value) throws IOException {
     final var entries = value.all().entrySet();
     for (final var entry : entries) {
       final var tag = entry.getValue();
@@ -188,8 +184,7 @@ public final class NBTOutputStream implements Closeable {
    *
    * @throws IOException if something went wrong when reading the given input.
    */
-  public void writeIntArray(@NotNull final IntArrayTag value)
-    throws IOException {
+  public void writeIntArray(@NotNull final IntArrayTag value) throws IOException {
     this.output.writeInt(value.size());
     for (final var val : value.value()) {
       this.output.writeInt(val);
@@ -229,8 +224,7 @@ public final class NBTOutputStream implements Closeable {
    *
    * @throws IOException if something went wrong when reading the given input.
    */
-  public void writeLongArray(@NotNull final LongArrayTag value)
-    throws IOException {
+  public void writeLongArray(@NotNull final LongArrayTag value) throws IOException {
     this.output.writeInt(value.size());
     for (final var val : value.value()) {
       this.output.writeLong(val);

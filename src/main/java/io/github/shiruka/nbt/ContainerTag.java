@@ -176,10 +176,7 @@ public interface ContainerTag<K, S extends ContainerTag<K, S>> extends Tag {
    * @return a list instance from the tag container.
    */
   @NotNull
-  default Optional<List<Tag>> getList(
-    @NotNull final K key,
-    @NotNull final TagTypes listType
-  ) {
+  default Optional<List<Tag>> getList(@NotNull final K key, @NotNull final TagTypes listType) {
     return this.getListTag(key, listType).map(ListTag::all);
   }
 
@@ -204,10 +201,7 @@ public interface ContainerTag<K, S extends ContainerTag<K, S>> extends Tag {
    * @return a list tag instance from the tag container.
    */
   @NotNull
-  default Optional<ListTag> getListTag(
-    @NotNull final K key,
-    @NotNull final TagTypes listType
-  ) {
+  default Optional<ListTag> getListTag(@NotNull final K key, @NotNull final TagTypes listType) {
     return this.get(key)
       .filter(Tag::isList)
       .map(Tag::asList)
@@ -282,10 +276,7 @@ public interface ContainerTag<K, S extends ContainerTag<K, S>> extends Tag {
    */
   @NotNull
   default Optional<String> getString(@NotNull final K key) {
-    return this.get(key)
-      .filter(Tag::isString)
-      .map(Tag::asString)
-      .map(PrimitiveTag::value);
+    return this.get(key).filter(Tag::isString).map(Tag::asString).map(PrimitiveTag::value);
   }
 
   /**
@@ -442,10 +433,7 @@ public interface ContainerTag<K, S extends ContainerTag<K, S>> extends Tag {
    * @return {@code this} for the chain.
    */
   @NotNull
-  default S setMap(
-    @NotNull final K key,
-    @NotNull final Map<String, Tag> value
-  ) {
+  default S setMap(@NotNull final K key, @NotNull final Map<String, Tag> value) {
     return this.set(key, Tag.createCompound(value));
   }
 

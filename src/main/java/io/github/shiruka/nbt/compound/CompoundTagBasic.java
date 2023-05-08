@@ -2,8 +2,8 @@ package io.github.shiruka.nbt.compound;
 
 import io.github.shiruka.nbt.CompoundTag;
 import io.github.shiruka.nbt.Tag;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
@@ -13,13 +13,12 @@ import org.jetbrains.annotations.NotNull;
  *
  * @param original the original.
  */
-public record CompoundTagBasic(@NotNull Map<String, Tag> original)
-  implements CompoundTag {
+public record CompoundTagBasic(@NotNull Map<String, Tag> original) implements CompoundTag {
   /**
    * ctor.
    */
   public CompoundTagBasic() {
-    this(new Object2ObjectOpenHashMap<>());
+    this(new HashMap<>());
   }
 
   @NotNull

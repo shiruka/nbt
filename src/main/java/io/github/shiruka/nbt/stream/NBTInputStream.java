@@ -1,6 +1,5 @@
 package io.github.shiruka.nbt.stream;
 
-import com.google.common.base.Preconditions;
 import io.github.shiruka.nbt.CompoundTag;
 import io.github.shiruka.nbt.ListTag;
 import io.github.shiruka.nbt.Tag;
@@ -15,11 +14,11 @@ import io.github.shiruka.nbt.primitive.IntTag;
 import io.github.shiruka.nbt.primitive.LongTag;
 import io.github.shiruka.nbt.primitive.ShortTag;
 import io.github.shiruka.nbt.primitive.StringTag;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import java.io.Closeable;
 import java.io.DataInput;
 import java.io.EOFException;
 import java.io.IOException;
+import java.util.ArrayList;
 import lombok.Getter;
 import lombok.experimental.Accessors;
 import org.jetbrains.annotations.NotNull;
@@ -57,7 +56,7 @@ public final class NBTInputStream implements Closeable {
       return;
     }
     this.closed = true;
-    if (this.input instanceof Closeable closeable) {
+    if (this.input instanceof final Closeable closeable) {
       closeable.close();
     }
   }
@@ -73,10 +72,9 @@ public final class NBTInputStream implements Closeable {
    */
   @NotNull
   public Tag read(final byte id) throws IOException {
-    Preconditions.checkState(
-      !this.closed,
-      "Trying to read from a closed reader!"
-    );
+    if (this.closed) {
+      throw new IllegalStateException("Trying to read from a closed reader!");
+    }
     return switch (id) {
       case 1 -> this.readByte();
       case 2 -> this.readShort();
@@ -212,7 +210,7 @@ public final class NBTInputStream implements Closeable {
   public ListTag readListTag() throws IOException {
     final var id = this.input.readByte();
     final var length = this.input.readInt();
-    final var tags = new ObjectArrayList<Tag>(length);
+    final var tags = new ArrayList<Tag>(length);
     for (var i = 0; i < length; i++) {
       final var read = this.read(id);
       tags.add(read);

@@ -88,7 +88,7 @@ public final class OptionalShort {
       return true;
     }
     return (
-      obj instanceof OptionalShort other &&
+      obj instanceof final OptionalShort other &&
       (
         this.isPresent && other.isPresent
           ? this.value == other.value
@@ -99,9 +99,7 @@ public final class OptionalShort {
 
   @Override
   public String toString() {
-    return this.isPresent
-      ? String.format("OptionalShort[%s]", this.value)
-      : "OptionalShort.empty";
+    return this.isPresent ? String.format("OptionalShort[%s]", this.value) : "OptionalShort.empty";
   }
 
   /**
@@ -121,10 +119,7 @@ public final class OptionalShort {
    * @param action the action to run.
    * @param emptyAction the empty action to run.
    */
-  public void ifPresentOrElse(
-    final ShortConsumer action,
-    final Runnable emptyAction
-  ) {
+  public void ifPresentOrElse(final ShortConsumer action, final Runnable emptyAction) {
     if (this.isPresent) {
       action.accept(this.value);
     } else {
@@ -194,9 +189,8 @@ public final class OptionalShort {
    *
    * @throws X if the value is not present.
    */
-  public <X extends Throwable> short orElseThrow(
-    final Supplier<? extends X> exceptionSupplier
-  ) throws X {
+  public <X extends Throwable> short orElseThrow(final Supplier<? extends X> exceptionSupplier)
+    throws X {
     if (this.isPresent) {
       return this.value;
     } else {

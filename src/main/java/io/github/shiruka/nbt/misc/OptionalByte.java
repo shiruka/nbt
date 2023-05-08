@@ -88,7 +88,7 @@ public final class OptionalByte {
       return true;
     }
     return (
-      obj instanceof OptionalByte other &&
+      obj instanceof final OptionalByte other &&
       (
         this.isPresent && other.isPresent
           ? this.value == other.value
@@ -99,9 +99,7 @@ public final class OptionalByte {
 
   @Override
   public String toString() {
-    return this.isPresent
-      ? String.format("OptionalByte[%s]", this.value)
-      : "OptionalByte.empty";
+    return this.isPresent ? String.format("OptionalByte[%s]", this.value) : "OptionalByte.empty";
   }
 
   /**
@@ -121,10 +119,7 @@ public final class OptionalByte {
    * @param action the action to run.
    * @param emptyAction the empty action to run.
    */
-  public void ifPresentOrElse(
-    final ByteConsumer action,
-    final Runnable emptyAction
-  ) {
+  public void ifPresentOrElse(final ByteConsumer action, final Runnable emptyAction) {
     if (this.isPresent) {
       action.accept(this.value);
     } else {
@@ -194,9 +189,8 @@ public final class OptionalByte {
    *
    * @throws X if the value is not present.
    */
-  public <X extends Throwable> byte orElseThrow(
-    final Supplier<? extends X> exceptionSupplier
-  ) throws X {
+  public <X extends Throwable> byte orElseThrow(final Supplier<? extends X> exceptionSupplier)
+    throws X {
     if (this.isPresent) {
       return this.value;
     } else {

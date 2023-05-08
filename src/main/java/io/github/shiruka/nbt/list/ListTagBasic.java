@@ -1,10 +1,9 @@
 package io.github.shiruka.nbt.list;
 
-import com.google.common.base.Preconditions;
 import io.github.shiruka.nbt.ListTag;
 import io.github.shiruka.nbt.Tag;
 import io.github.shiruka.nbt.TagTypes;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -38,10 +37,7 @@ public final class ListTagBasic implements ListTag {
    * @param original the original.
    * @param listType the list type.
    */
-  public ListTagBasic(
-    @NotNull final List<Tag> original,
-    @NotNull final TagTypes listType
-  ) {
+  public ListTagBasic(@NotNull final List<Tag> original, @NotNull final TagTypes listType) {
     this.original = Collections.unmodifiableList(original);
     this.listType = listType;
   }
@@ -52,19 +48,17 @@ public final class ListTagBasic implements ListTag {
     this.edit(
         tags -> {
           final var endType = TagTypes.END;
-          Preconditions.checkArgument(
-            tag.getType() != endType,
-            "Cannot add a %s to a %s",
-            endType,
-            TagTypes.LIST
-          );
-          if (this.getListType() != endType) {
-            Preconditions.checkArgument(
-              tag.getType() == this.listType,
-              "Trying to add tag of type %s to list of %s",
-              tag.getType(),
-              this.listType
+          if (tag.getType() == endType) {
+            throw new IllegalArgumentException(
+              "Cannot add a %s to a %s".formatted(endType, TagTypes.LIST)
             );
+          }
+          if (this.getListType() != endType) {
+            if (tag.getType() != this.listType) {
+              throw new IllegalArgumentException(
+                "Trying to add tag of type %s to list of %s".formatted(tag.getType(), this.listType)
+              );
+            }
           }
           tags.add(tag);
         },
@@ -129,9 +123,7 @@ public final class ListTagBasic implements ListTag {
   @Override
   public boolean equals(final Object obj) {
     return (
-      this == obj ||
-      obj instanceof ListTagBasic list &&
-      this.original.equals(list.original)
+      this == obj || obj instanceof final ListTagBasic list && this.original.equals(list.original)
     );
   }
 
@@ -170,10 +162,7 @@ public final class ListTagBasic implements ListTag {
   @NotNull
   @Override
   public Spliterator<Tag> spliterator() {
-    return Spliterators.spliterator(
-      this.original,
-      Spliterator.ORDERED | Spliterator.IMMUTABLE
-    );
+    return Spliterators.spliterator(this.original, Spliterator.ORDERED | Spliterator.IMMUTABLE);
   }
 
   /**
@@ -182,11 +171,8 @@ public final class ListTagBasic implements ListTag {
    * @param consumer the consumer to edit.
    * @param type the type to edit.
    */
-  private void edit(
-    @NotNull final Consumer<List<Tag>> consumer,
-    @NotNull final TagTypes type
-  ) {
-    final var tags = new ObjectArrayList<>(this.original);
+  private void edit(@NotNull final Consumer<List<Tag>> consumer, @NotNull final TagTypes type) {
+    final var tags = new ArrayList<>(this.original);
     consumer.accept(tags);
     if (type != TagTypes.NONE && this.listType == TagTypes.END) {
       this.original = tags;

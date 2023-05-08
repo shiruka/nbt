@@ -2,8 +2,8 @@ package io.github.shiruka.nbt.array;
 
 import io.github.shiruka.nbt.ArrayTag;
 import io.github.shiruka.nbt.TagTypes;
+import io.github.shiruka.nbt.misc.ArrayUtils;
 import java.util.Arrays;
-import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -80,12 +80,7 @@ public final class LongArrayTag implements ArrayTag<Long> {
 
   @Override
   public String toString() {
-    return (
-      "LongArrayTag{" +
-      "primitiveOriginal=" +
-      Arrays.toString(this.primitiveOriginal) +
-      '}'
-    );
+    return ("LongArrayTag{" + "primitiveOriginal=" + Arrays.toString(this.primitiveOriginal) + '}');
   }
 
   /**

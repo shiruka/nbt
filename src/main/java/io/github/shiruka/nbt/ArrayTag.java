@@ -1,6 +1,5 @@
 package io.github.shiruka.nbt;
 
-import com.google.common.base.Preconditions;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -16,11 +15,18 @@ public interface ArrayTag<T> extends PrimitiveTag<T[]> {
    * @param length the length to check.
    */
   static void checkIndex(final int index, final int length) {
-    Preconditions.checkElementIndex(
-      index,
-      length,
-      String.format("Index out of bounds: %s", index)
-    );
+    if (index < 0 || index >= length) {
+      final var desc = String.format("Index out of bounds: %s", index);
+      if (index < 0) {
+        throw new IndexOutOfBoundsException("%s (%s) must not be negative".formatted(desc, index));
+      }
+      if (length < 0) {
+        throw new IllegalArgumentException("negative size: " + length);
+      }
+      throw new IndexOutOfBoundsException(
+        "%s (%s) must be less than size (%s)".formatted(desc, index, length)
+      );
+    }
   }
 
   @Override

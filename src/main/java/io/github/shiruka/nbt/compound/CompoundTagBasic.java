@@ -2,18 +2,30 @@ package io.github.shiruka.nbt.compound;
 
 import io.github.shiruka.nbt.CompoundTag;
 import io.github.shiruka.nbt.Tag;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * an implementation for {@link CompoundTag}.
- *
- * @param original the original.
  */
-public record CompoundTagBasic(@NotNull Map<String, Tag> original) implements CompoundTag {
+@Getter
+@ToString
+@EqualsAndHashCode
+public final class CompoundTagBasic implements CompoundTag {
+
+  @NotNull
+  private final Map<String, Tag> original;
+
+  /**
+   * @param original the original.
+   */
+  public CompoundTagBasic(@NotNull Map<String, Tag> original) {
+    this.original = original;
+  }
+
   /**
    * ctor.
    */

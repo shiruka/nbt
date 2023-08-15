@@ -56,8 +56,8 @@ public final class NBTInputStream implements Closeable {
       return;
     }
     this.closed = true;
-    if (this.input instanceof final Closeable closeable) {
-      closeable.close();
+    if (this.input instanceof Closeable) {
+      ((Closeable) this.input).close();
     }
   }
 
@@ -75,21 +75,34 @@ public final class NBTInputStream implements Closeable {
     if (this.closed) {
       throw new IllegalStateException("Trying to read from a closed reader!");
     }
-    return switch (id) {
-      case 1 -> this.readByte();
-      case 2 -> this.readShort();
-      case 3 -> this.readInt();
-      case 4 -> this.readLong();
-      case 5 -> this.readFloat();
-      case 6 -> this.readDouble();
-      case 7 -> this.readByteArray();
-      case 8 -> this.readString();
-      case 9 -> this.readListTag();
-      case 10 -> this.readCompoundTag();
-      case 11 -> this.readIntArray();
-      case 12 -> this.readLongArray();
-      default -> throw new IllegalArgumentException("Unknown type " + id);
-    };
+    switch (id) {
+      case 1:
+        return this.readByte();
+      case 2:
+        return this.readShort();
+      case 3:
+        return this.readInt();
+      case 4:
+        return this.readLong();
+      case 5:
+        return this.readFloat();
+      case 6:
+        return this.readDouble();
+      case 7:
+        return this.readByteArray();
+      case 8:
+        return this.readString();
+      case 9:
+        return this.readListTag();
+      case 10:
+        return this.readCompoundTag();
+      case 11:
+        return this.readIntArray();
+      case 12:
+        return this.readLongArray();
+      default:
+        throw new IllegalArgumentException("Unknown type " + id);
+    }
   }
 
   /**
@@ -113,8 +126,8 @@ public final class NBTInputStream implements Closeable {
    */
   @NotNull
   public ByteArrayTag readByteArray() throws IOException {
-    final var length = this.input.readInt();
-    final var value = new byte[length];
+    final int length = this.input.readInt();
+    final byte[] value = new byte[length];
     this.input.readFully(value);
     return Tag.createByteArray(value);
   }
@@ -128,7 +141,7 @@ public final class NBTInputStream implements Closeable {
    */
   @NotNull
   public CompoundTag readCompoundTag() throws IOException {
-    final var compoundTag = Tag.createCompound();
+    final CompoundTag compoundTag = Tag.createCompound();
     while (true) {
       final byte id;
       try {
@@ -139,8 +152,8 @@ public final class NBTInputStream implements Closeable {
       if (id == TagTypes.END.getId()) {
         break;
       }
-      final var key = this.input.readUTF();
-      final var tag = this.read(id);
+      final String key = this.input.readUTF();
+      final Tag tag = this.read(id);
       compoundTag.set(key, tag);
     }
     return compoundTag;
@@ -191,9 +204,9 @@ public final class NBTInputStream implements Closeable {
    */
   @NotNull
   public IntArrayTag readIntArray() throws IOException {
-    final var length = this.input.readInt();
-    final var value = new int[length];
-    for (var i = 0; i < length; i++) {
+    final int length = this.input.readInt();
+    final int[] value = new int[length];
+    for (int i = 0; i < length; i++) {
       value[i] = this.input.readInt();
     }
     return Tag.createIntArray(value);
@@ -208,11 +221,11 @@ public final class NBTInputStream implements Closeable {
    */
   @NotNull
   public ListTag readListTag() throws IOException {
-    final var id = this.input.readByte();
-    final var length = this.input.readInt();
-    final var tags = new ArrayList<Tag>(length);
-    for (var i = 0; i < length; i++) {
-      final var read = this.read(id);
+    final byte id = this.input.readByte();
+    final int length = this.input.readInt();
+    final ArrayList<Tag> tags = new ArrayList<Tag>(length);
+    for (int i = 0; i < length; i++) {
+      final Tag read = this.read(id);
       tags.add(read);
     }
     return Tag.createList(tags);
@@ -239,9 +252,9 @@ public final class NBTInputStream implements Closeable {
    */
   @NotNull
   public LongArrayTag readLongArray() throws IOException {
-    final var length = this.input.readInt();
-    final var value = new long[length];
-    for (var i = 0; i < length; i++) {
+    final int length = this.input.readInt();
+    final long[] value = new long[length];
+    for (int i = 0; i < length; i++) {
       value[i] = this.input.readLong();
     }
     return Tag.createLongArray(value);

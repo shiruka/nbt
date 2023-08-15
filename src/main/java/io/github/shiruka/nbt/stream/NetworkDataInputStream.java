@@ -43,8 +43,8 @@ public final class NetworkDataInputStream extends LittleEndianDataInputStream {
   @NotNull
   @Override
   public String readUTF() throws IOException {
-    final var length = VarInts.readUnsignedInt(this.stream);
-    final var bytes = new byte[length];
+    final int length = VarInts.readUnsignedInt(this.stream);
+    final byte[] bytes = new byte[length];
     this.readFully(bytes);
     return new String(bytes, StandardCharsets.UTF_8);
   }

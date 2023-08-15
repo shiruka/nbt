@@ -40,8 +40,8 @@ public class ArrayUtils {
     if (array.length == 0) {
       return ArrayUtils.EMPTY_BYTE_OBJECT_ARRAY;
     }
-    final var result = new Byte[array.length];
-    for (var index = 0; index < array.length; index++) {
+    final Byte[] result = new Byte[array.length];
+    for (int index = 0; index < array.length; index++) {
       result[index] = array[index];
     }
     return result;
@@ -62,8 +62,8 @@ public class ArrayUtils {
     if (array.length == 0) {
       return ArrayUtils.EMPTY_INTEGER_OBJECT_ARRAY;
     }
-    final var result = new Integer[array.length];
-    for (var index = 0; index < array.length; index++) {
+    final Integer[] result = new Integer[array.length];
+    for (int index = 0; index < array.length; index++) {
       result[index] = array[index];
     }
     return result;
@@ -84,8 +84,8 @@ public class ArrayUtils {
     if (array.length == 0) {
       return ArrayUtils.EMPTY_LONG_OBJECT_ARRAY;
     }
-    final var result = new Long[array.length];
-    for (var index = 0; index < array.length; index++) {
+    final Long[] result = new Long[array.length];
+    for (int index = 0; index < array.length; index++) {
       result[index] = array[index];
     }
     return result;

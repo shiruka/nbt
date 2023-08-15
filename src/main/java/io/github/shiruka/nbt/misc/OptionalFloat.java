@@ -83,18 +83,18 @@ public final class OptionalFloat {
   }
 
   @Override
-  public boolean equals(final Object obj) {
-    if (this == obj) {
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
     }
-    return (
-      obj instanceof final OptionalFloat other &&
-      (
-        this.isPresent && other.isPresent
-          ? this.value == other.value
-          : this.isPresent == other.isPresent
-      )
-    );
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    final OptionalFloat that = (OptionalFloat) o;
+    if (isPresent != that.isPresent) {
+      return false;
+    }
+    return Float.compare(value, that.value) == 0;
   }
 
   @Override

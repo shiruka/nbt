@@ -74,7 +74,7 @@ public final class LongArrayTag implements ArrayTag<Long> {
     if (o == null || this.getClass() != o.getClass()) {
       return false;
     }
-    final var that = (LongArrayTag) o;
+    final LongArrayTag that = (LongArrayTag) o;
     return Arrays.equals(this.primitiveOriginal, that.primitiveOriginal);
   }
 

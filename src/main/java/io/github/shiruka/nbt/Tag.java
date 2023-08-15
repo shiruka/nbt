@@ -28,6 +28,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.zip.GZIPInputStream;
@@ -231,7 +232,7 @@ public interface Tag {
    */
   @NotNull
   static ListTag createList(@NotNull final Tag... original) {
-    return Tag.createList(List.of(original));
+    return Tag.createList(Arrays.asList(original));
   }
 
   /**

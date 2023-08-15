@@ -117,7 +117,7 @@ public class LittleEndianDataInputStream implements DataInput, Closeable {
   @NotNull
   @Override
   public String readUTF() throws IOException {
-    final var bytes = new byte[this.readUnsignedShort()];
+    final byte[] bytes = new byte[this.readUnsignedShort()];
     this.readFully(bytes);
     return new String(bytes, StandardCharsets.UTF_8);
   }

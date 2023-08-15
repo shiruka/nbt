@@ -74,7 +74,7 @@ public final class ByteArrayTag implements ArrayTag<Byte> {
     if (o == null || this.getClass() != o.getClass()) {
       return false;
     }
-    final var that = (ByteArrayTag) o;
+    final ByteArrayTag that = (ByteArrayTag) o;
     return Arrays.equals(this.primitiveOriginal, that.primitiveOriginal);
   }
 

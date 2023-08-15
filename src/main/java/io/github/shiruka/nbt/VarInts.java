@@ -3,12 +3,15 @@ package io.github.shiruka.nbt;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
+import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an interface that contains utility methods for {@link DataInput} and {@link DataOutput} classes.
+ * a class that contains utility methods for {@link DataInput} and {@link DataOutput} classes.
  */
-public interface VarInts {
+@UtilityClass
+public class VarInts {
+
   /**
    * reads the integer from the given input.
    *
@@ -18,8 +21,8 @@ public interface VarInts {
    *
    * @throws IOException if something went wrong when reading to the input.
    */
-  static int readInt(@NotNull final DataInput input) throws IOException {
-    final var n = (int) VarInts.decodeUnsigned(input);
+  public int readInt(@NotNull final DataInput input) throws IOException {
+    final int n = (int) VarInts.decodeUnsigned(input);
     return n >>> 1 ^ -(n & 1);
   }
 
@@ -32,8 +35,8 @@ public interface VarInts {
    *
    * @throws IOException if something went wrong when reading the input.
    */
-  static long readLong(@NotNull final DataInput input) throws IOException {
-    final var n = VarInts.decodeUnsigned(input);
+  public long readLong(@NotNull final DataInput input) throws IOException {
+    final long n = VarInts.decodeUnsigned(input);
     return n >>> 1 ^ -(n & 1);
   }
 
@@ -46,7 +49,7 @@ public interface VarInts {
    *
    * @throws IOException if something went wrong when reading the input.
    */
-  static int readUnsignedInt(@NotNull final DataInput input) throws IOException {
+  public int readUnsignedInt(@NotNull final DataInput input) throws IOException {
     return (int) VarInts.decodeUnsigned(input);
   }
 
@@ -58,7 +61,7 @@ public interface VarInts {
    *
    * @throws IOException if something went wrong when writing to the output.
    */
-  static void writeInt(@NotNull final DataOutput output, final int integer) throws IOException {
+  public void writeInt(@NotNull final DataOutput output, final int integer) throws IOException {
     VarInts.encodeUnsigned(output, (long) integer << 1 ^ integer >> 31);
   }
 
@@ -70,7 +73,7 @@ public interface VarInts {
    *
    * @throws IOException if something went wrong when writing to the output.
    */
-  static void writeLong(@NotNull final DataOutput output, final long longInteger)
+  public void writeLong(@NotNull final DataOutput output, final long longInteger)
     throws IOException {
     VarInts.encodeUnsigned(output, longInteger << 1 ^ longInteger >> 63);
   }
@@ -83,7 +86,7 @@ public interface VarInts {
    *
    * @throws IOException if something went wrong when writing to the output.
    */
-  static void writeUnsignedInt(@NotNull final DataOutput output, final long integer)
+  public void writeUnsignedInt(@NotNull final DataOutput output, final long integer)
     throws IOException {
     VarInts.encodeUnsigned(output, integer);
   }
@@ -97,10 +100,10 @@ public interface VarInts {
    *
    * @throws IOException if something went wrong when decoding the given input.
    */
-  private static long decodeUnsigned(@NotNull final DataInput input) throws IOException {
-    var result = 0;
-    for (var shift = 0; shift < 64; shift += 7) {
-      final var b = input.readByte();
+  private long decodeUnsigned(@NotNull final DataInput input) throws IOException {
+    long result = 0;
+    for (int shift = 0; shift < 64; shift += 7) {
+      final byte b = input.readByte();
       result |= (long) (b & 0x7F) << shift;
       if ((b & 0x80) == 0) {
         return result;
@@ -117,9 +120,9 @@ public interface VarInts {
    *
    * @throws IOException if something went wrong when encoding to the output.
    */
-  private static void encodeUnsigned(@NotNull final DataOutput output, final long value)
+  private void encodeUnsigned(@NotNull final DataOutput output, final long value)
     throws IOException {
-    var tempValue = value;
+    long tempValue = value;
     while (true) {
       if ((tempValue & ~0x7FL) == 0) {
         output.writeByte((int) tempValue);

@@ -2,7 +2,7 @@
 lombok = { module = "org.projectlombok:lombok", version = "1.18.28" }
 annotations = { module = "org.jetbrains:annotations", version = "24.0.1" }
 netty = { module = "io.netty:netty-all", version = "4.1.96.Final" }
-junit = { module = "org.junit.jupiter:junit-jupiter", version = "5.9.3" }
+junit = { module = "org.junit.jupiter:junit-jupiter", version = "5.10.0" }
 
 [plugins]
 spotless = { id = "com.diffplug.spotless", version = "6.20.0" }

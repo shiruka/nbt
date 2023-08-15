@@ -1,14 +1,14 @@
-import com.diffplug.gradle.spotless.YamlExtension
 import com.diffplug.spotless.LineEnding
 
 plugins {
   java
   `maven-publish`
   signing
-  id("checkstyle")
   alias(libs.plugins.spotless)
   alias(libs.plugins.nexus)
 }
+
+val signRequired = !rootProject.property("dev").toString().toBoolean()
 
 group = "io.github.shiruka"
 
@@ -17,10 +17,6 @@ defaultTasks("build")
 configurations {
   testImplementation.get().extendsFrom(compileOnly.get())
   testAnnotationProcessor.get().extendsFrom(annotationProcessor.get())
-}
-
-checkstyle {
-  configFile = file("checkstyle.xml")
 }
 
 repositories {
@@ -37,12 +33,11 @@ dependencies {
   testImplementation(libs.junit)
 
   annotationProcessor(libs.lombok)
-  annotationProcessor(libs.annotations)
 }
 
 java {
   toolchain {
-    languageVersion.set(JavaLanguageVersion.of(17))
+    languageVersion.set(JavaLanguageVersion.of(8))
   }
 }
 
@@ -76,63 +71,6 @@ tasks {
 
   test {
     useJUnitPlatform()
-  }
-
-  checkstyleTest {
-    isEnabled = false
-  }
-}
-
-val signRequired = !rootProject.property("dev").toString().toBoolean()
-
-spotless {
-  lineEndings = LineEnding.UNIX
-
-  val prettierConfig =
-    mapOf(
-      "prettier" to "latest",
-      "prettier-plugin-java" to "latest",
-    )
-
-  format("encoding") {
-    target("*.*")
-    encoding("UTF-8")
-    endWithNewline()
-    trimTrailingWhitespace()
-  }
-
-  yaml {
-    target(
-      ".github/**/*.yml",
-      ".github/**/*.yaml",
-    )
-    endWithNewline()
-    trimTrailingWhitespace()
-    val jackson = jackson() as YamlExtension.JacksonYamlGradleConfig
-    jackson.yamlFeature("LITERAL_BLOCK_STYLE", true)
-    jackson.yamlFeature("MINIMIZE_QUOTES", true)
-    jackson.yamlFeature("SPLIT_LINES", false)
-  }
-
-  kotlinGradle {
-    target("**/*.gradle.kts")
-    indentWithSpaces(2)
-    endWithNewline()
-    trimTrailingWhitespace()
-    ktlint()
-  }
-
-  java {
-    target("**/src/**/java/**/*.java")
-    importOrder()
-    removeUnusedImports()
-    indentWithSpaces(2)
-    endWithNewline()
-    trimTrailingWhitespace()
-    prettier(prettierConfig)
-      .config(
-        mapOf("parser" to "java", "tabWidth" to 2, "useTabs" to false, "printWidth" to 100),
-      )
   }
 }
 
@@ -181,8 +119,55 @@ publishing {
   }
 }
 
-nexusPublishing {
-  repositories {
-    sonatype()
+nexusPublishing.repositories.sonatype()
+
+spotless {
+  lineEndings = LineEnding.UNIX
+
+  val prettierConfig =
+    mapOf(
+      "prettier" to "2.8.8",
+      "prettier-plugin-java" to "2.2.0",
+    )
+
+  format("encoding") {
+    target("*.*")
+    encoding("UTF-8")
+    endWithNewline()
+    trimTrailingWhitespace()
+  }
+
+  yaml {
+    target(
+      ".github/**/*.yml",
+      ".github/**/*.yaml",
+    )
+    endWithNewline()
+    trimTrailingWhitespace()
+    val jackson = jackson()
+    jackson.yamlFeature("LITERAL_BLOCK_STYLE", true)
+    jackson.yamlFeature("MINIMIZE_QUOTES", true)
+    jackson.yamlFeature("SPLIT_LINES", false)
+  }
+
+  kotlinGradle {
+    target("**/*.gradle.kts")
+    indentWithSpaces(2)
+    endWithNewline()
+    trimTrailingWhitespace()
+    ktlint()
+  }
+
+  java {
+    target("**/src/**/java/**/*.java")
+    importOrder()
+    removeUnusedImports()
+    indentWithSpaces(2)
+    endWithNewline()
+    trimTrailingWhitespace()
+    prettier(prettierConfig)
+      .config(
+        mapOf("parser" to "java", "tabWidth" to 2, "useTabs" to false, "printWidth" to 100),
+      )
   }
 }

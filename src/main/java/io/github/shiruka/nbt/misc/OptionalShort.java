@@ -57,7 +57,6 @@ public final class OptionalShort {
    * creates a new optional short instance.
    *
    * @param value the value to create.
-   *
    * @return a newly created optional short.
    */
   @NotNull
@@ -83,18 +82,18 @@ public final class OptionalShort {
   }
 
   @Override
-  public boolean equals(final Object obj) {
-    if (this == obj) {
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
     }
-    return (
-      obj instanceof final OptionalShort other &&
-      (
-        this.isPresent && other.isPresent
-          ? this.value == other.value
-          : this.isPresent == other.isPresent
-      )
-    );
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    final OptionalShort that = (OptionalShort) o;
+    if (isPresent != that.isPresent) {
+      return false;
+    }
+    return value == that.value;
   }
 
   @Override
@@ -116,7 +115,7 @@ public final class OptionalShort {
   /**
    * runs the action if the value is present otherwise runs the empty action..
    *
-   * @param action the action to run.
+   * @param action      the action to run.
    * @param emptyAction the empty action to run.
    */
   public void ifPresentOrElse(final ShortConsumer action, final Runnable emptyAction) {
@@ -149,7 +148,6 @@ public final class OptionalShort {
    * {@link #value} if {@link #isPresent} otherwise {@code other}.
    *
    * @param other the other to return.
-   *
    * @return {@link #value} if the value is present otherwise the given short.
    */
   public short orElse(final short other) {
@@ -160,7 +158,6 @@ public final class OptionalShort {
    * {@link #value} if {@link #isPresent} otherwise {@code other}.
    *
    * @param supplier the supplier to return.
-   *
    * @return {@link #value} if the value is present otherwise the given supplier's value.
    */
   public short orElseGet(final ShortSupplier supplier) {
@@ -183,10 +180,8 @@ public final class OptionalShort {
    * {@link #value} if presents or throw no value present exception.
    *
    * @param exceptionSupplier the exception supplier to throw exception.
-   * @param <X> type of the exception.
-   *
+   * @param <X>               type of the exception.
    * @return {@link #value}.
-   *
    * @throws X if the value is not present.
    */
   public <X extends Throwable> short orElseThrow(final Supplier<? extends X> exceptionSupplier)

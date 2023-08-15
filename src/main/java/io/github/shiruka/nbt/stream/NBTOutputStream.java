@@ -17,6 +17,8 @@ import io.github.shiruka.nbt.primitive.StringTag;
 import java.io.Closeable;
 import java.io.DataOutput;
 import java.io.IOException;
+import java.util.Map;
+import java.util.Set;
 import lombok.Getter;
 import lombok.experimental.Accessors;
 import org.jetbrains.annotations.NotNull;
@@ -70,7 +72,6 @@ public final class NBTOutputStream implements Closeable {
     if (this.closed) {
       throw new IllegalStateException("Trying to read from a closed reader!");
     }
-    final var id = value.getType();
     if (value.isByte()) {
       this.writeByte(value.asByte());
     } else if (value.isShort()) {
@@ -96,7 +97,7 @@ public final class NBTOutputStream implements Closeable {
     } else if (value.isLongArray()) {
       this.writeLongArray(value.asLongArray());
     } else {
-      throw new IllegalArgumentException(String.format("Unknown type %s", id));
+      throw new IllegalArgumentException(String.format("Unknown type %s", value.getType()));
     }
   }
 
@@ -119,7 +120,7 @@ public final class NBTOutputStream implements Closeable {
    * @throws IOException if something went wrong when reading the given input.
    */
   public void writeByteArray(@NotNull final ByteArrayTag value) throws IOException {
-    final var bytes = value.primitiveValue();
+    final byte[] bytes = value.primitiveValue();
     this.output.writeInt(bytes.length);
     this.output.write(bytes);
   }
@@ -132,9 +133,9 @@ public final class NBTOutputStream implements Closeable {
    * @throws IOException if something went wrong when reading the given input.
    */
   public void writeCompoundTag(@NotNull final CompoundTag value) throws IOException {
-    final var entries = value.all().entrySet();
-    for (final var entry : entries) {
-      final var tag = entry.getValue();
+    final Set<Map.Entry<String, Tag>> entries = value.all().entrySet();
+    for (final Map.Entry<String, Tag> entry : entries) {
+      final Tag tag = entry.getValue();
       this.output.writeByte(tag.getType().getId());
       if (tag.getType() != TagTypes.END) {
         this.output.writeUTF(entry.getKey());
@@ -186,7 +187,7 @@ public final class NBTOutputStream implements Closeable {
    */
   public void writeIntArray(@NotNull final IntArrayTag value) throws IOException {
     this.output.writeInt(value.size());
-    for (final var val : value.value()) {
+    for (final int val : value.value()) {
       this.output.writeInt(val);
     }
   }
@@ -201,7 +202,7 @@ public final class NBTOutputStream implements Closeable {
   public void writeListTag(@NotNull final ListTag value) throws IOException {
     this.output.writeByte(value.getListType().getId());
     this.output.writeInt(value.size());
-    for (final var tag : value) {
+    for (final Tag tag : value) {
       this.write(tag);
     }
   }
@@ -226,7 +227,7 @@ public final class NBTOutputStream implements Closeable {
    */
   public void writeLongArray(@NotNull final LongArrayTag value) throws IOException {
     this.output.writeInt(value.size());
-    for (final var val : value.value()) {
+    for (final long val : value.value()) {
       this.output.writeLong(val);
     }
   }

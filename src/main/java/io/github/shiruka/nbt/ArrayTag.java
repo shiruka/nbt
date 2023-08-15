@@ -16,15 +16,17 @@ public interface ArrayTag<T> extends PrimitiveTag<T[]> {
    */
   static void checkIndex(final int index, final int length) {
     if (index < 0 || index >= length) {
-      final var desc = String.format("Index out of bounds: %s", index);
+      final String desc = String.format("Index out of bounds: %s", index);
       if (index < 0) {
-        throw new IndexOutOfBoundsException("%s (%s) must not be negative".formatted(desc, index));
+        throw new IndexOutOfBoundsException(
+          String.format("%s (%s) must not be negative", desc, index)
+        );
       }
       if (length < 0) {
         throw new IllegalArgumentException("negative size: " + length);
       }
       throw new IndexOutOfBoundsException(
-        "%s (%s) must be less than size (%s)".formatted(desc, index, length)
+        String.format("%s (%s) must be less than size (%s)", desc, index, length)
       );
     }
   }

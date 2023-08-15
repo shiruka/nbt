@@ -42,7 +42,7 @@ public final class NetworkDataOutputStream extends LittleEndianDataOutputStream 
 
   @Override
   public void writeUTF(@NotNull final String s) throws IOException {
-    final var bytes = s.getBytes(StandardCharsets.UTF_8);
+    final byte[] bytes = s.getBytes(StandardCharsets.UTF_8);
     VarInts.writeUnsignedInt(this.stream, bytes.length);
     this.write(bytes);
   }

@@ -83,18 +83,18 @@ public final class OptionalByte {
   }
 
   @Override
-  public boolean equals(final Object obj) {
-    if (this == obj) {
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
     }
-    return (
-      obj instanceof final OptionalByte other &&
-      (
-        this.isPresent && other.isPresent
-          ? this.value == other.value
-          : this.isPresent == other.isPresent
-      )
-    );
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    final OptionalByte that = (OptionalByte) o;
+    if (isPresent != that.isPresent) {
+      return false;
+    }
+    return value == that.value;
   }
 
   @Override

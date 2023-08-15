@@ -109,7 +109,7 @@ public class LittleEndianDataOutputStream implements DataOutput, Closeable {
 
   @Override
   public void writeUTF(@NotNull final String s) throws IOException {
-    final var bytes = s.getBytes(StandardCharsets.UTF_8);
+    final byte[] bytes = s.getBytes(StandardCharsets.UTF_8);
     this.writeShort(bytes.length);
     this.write(bytes);
   }

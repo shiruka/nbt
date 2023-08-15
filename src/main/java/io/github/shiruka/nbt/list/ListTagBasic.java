@@ -12,11 +12,15 @@ import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * an implementation for {@link ListTag}.
  */
+@ToString(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public final class ListTagBasic implements ListTag {
 
   /**
@@ -29,6 +33,8 @@ public final class ListTagBasic implements ListTag {
    * the original.
    */
   @NotNull
+  @ToString.Include
+  @EqualsAndHashCode.Include
   private List<Tag> original;
 
   /**
@@ -47,16 +53,20 @@ public final class ListTagBasic implements ListTag {
   public ListTag add(@NotNull final Tag tag) {
     this.edit(
         tags -> {
-          final var endType = TagTypes.END;
+          final TagTypes endType = TagTypes.END;
           if (tag.getType() == endType) {
             throw new IllegalArgumentException(
-              "Cannot add a %s to a %s".formatted(endType, TagTypes.LIST)
+              String.format("Cannot add a %s to a %s", endType, TagTypes.LIST)
             );
           }
           if (this.getListType() != endType) {
             if (tag.getType() != this.listType) {
               throw new IllegalArgumentException(
-                "Trying to add tag of type %s to list of %s".formatted(tag.getType(), this.listType)
+                String.format(
+                  "Trying to add tag of type %s to list of %s",
+                  tag.getType(),
+                  this.listType
+                )
               );
             }
           }
@@ -115,43 +125,10 @@ public final class ListTagBasic implements ListTag {
     return this;
   }
 
-  @Override
-  public int hashCode() {
-    return this.original.hashCode();
-  }
-
-  @Override
-  public boolean equals(final Object obj) {
-    return (
-      this == obj || obj instanceof final ListTagBasic list && this.original.equals(list.original)
-    );
-  }
-
-  @Override
-  public String toString() {
-    return this.original.toString();
-  }
-
   @NotNull
   @Override
   public Iterator<Tag> iterator() {
-    final var iterator = this.original.iterator();
-    return new Iterator<>() {
-      @Override
-      public boolean hasNext() {
-        return iterator.hasNext();
-      }
-
-      @Override
-      public Tag next() {
-        return iterator.next();
-      }
-
-      @Override
-      public void forEachRemaining(final Consumer<? super Tag> action) {
-        iterator.forEachRemaining(action);
-      }
-    };
+    return this.original.iterator();
   }
 
   @Override
@@ -172,7 +149,7 @@ public final class ListTagBasic implements ListTag {
    * @param type the type to edit.
    */
   private void edit(@NotNull final Consumer<List<Tag>> consumer, @NotNull final TagTypes type) {
-    final var tags = new ArrayList<>(this.original);
+    final List<Tag> tags = new ArrayList<>(this.original);
     consumer.accept(tags);
     if (type != TagTypes.NONE && this.listType == TagTypes.END) {
       this.original = tags;

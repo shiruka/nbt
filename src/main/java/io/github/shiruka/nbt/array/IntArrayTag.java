@@ -74,7 +74,7 @@ public final class IntArrayTag implements ArrayTag<Integer> {
     if (o == null || this.getClass() != o.getClass()) {
       return false;
     }
-    final var that = (IntArrayTag) o;
+    final IntArrayTag that = (IntArrayTag) o;
     return Arrays.equals(this.primitiveOriginal, that.primitiveOriginal);
   }
 
